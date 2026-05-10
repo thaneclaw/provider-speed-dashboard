@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Provider Speed Dashboard — Cron Data Only</title>
 <style>
-  :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--weekend:#a371f7;}
+  :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--weekend:#a371f7;--weekday:#79c0ff;}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;padding:16px;max-width:900px;margin:0 auto}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;padding:16px;max-width:1000px;margin:0 auto}
   h1{font-size:1.3rem;margin-bottom:4px}
   .subtitle{color:var(--muted);font-size:.8rem;margin-bottom:16px}
   .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px}
@@ -18,6 +18,7 @@
   .stat-row{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
   .stat-row span{color:var(--text)}
   .weekend-tag{background:var(--weekend);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:4px;margin-left:6px}
+  .weekday-tag{background:var(--weekday);color:#000;font-size:.7rem;padding:2px 8px;border-radius:4px;margin-left:6px}
   table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
   th,td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--border)}
   th:first-child,td:first-child{text-align:left}
@@ -27,28 +28,22 @@
   .warn{color:var(--yellow)}
   .refresh{color:var(--muted);font-size:.75rem;margin-top:8px;text-align:center}
   .note{color:var(--muted);font-size:.8rem;margin-bottom:8px}
-  .tabs{display:flex;gap:8px;margin-bottom:10px}
-  .tab{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:6px 14px;cursor:pointer;font-size:.85rem;color:var(--muted)}
-  .tab.active{color:var(--text);border-color:var(--blue)}
-  .tab-content{display:none}
-  .tab-content.active{display:block}
+  .table-section{margin-bottom:16px}
+  .table-label{font-size:.9rem;font-weight:600;margin-bottom:6px;padding:4px 8px;border-radius:4px;display:inline-block}
+  .table-label.weekday{background:rgba(121,192,255,.15);color:var(--weekday)}
+  .table-label.weekend{background:rgba(163,113,247,.15);color:var(--weekend)}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:700px){.two-col{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <h1>Provider Speed Dashboard</h1>
 <div class="subtitle" id="subtitle">Loading...</div>
-<div class="note">📅 Cron-only data (May 8, 2026 onwards) · All times UTC · Weekday/Weekend split enabled</div>
+<div class="note">📅 Cron-only data (May 8, 2026 onwards) · All times UTC · Weekend = Sat/Sun UTC</div>
 
 <div class="card">
-  <h2>Current Recommendation</h2>
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('all')">All Days</div>
-    <div class="tab" onclick="switchTab('weekday')">Weekdays</div>
-    <div class="tab" onclick="switchTab('weekend')">Weekends</div>
-  </div>
-  <div id="recommend-all" class="tab-content active">Loading...</div>
-  <div id="recommend-weekday" class="tab-content">Loading...</div>
-  <div id="recommend-weekend" class="tab-content">Loading...</div>
+  <h2>Current Recommendation (All Days)</h2>
+  <div id="recommend-all">Loading...</div>
 </div>
 
 <div class="card">
@@ -57,15 +52,31 @@
 </div>
 
 <div class="card">
-  <h2>Time-of-Day Breakdown (tok/s)</h2>
-  <div class="tabs">
-    <div class="tab active" onclick="switchTable('all')">All Days</div>
-    <div class="tab" onclick="switchTable('weekday')">Weekdays</div>
-    <div class="tab" onclick="switchTable('weekend')">Weekends</div>
+  <h2>Time-of-Day Breakdown by Day Type</h2>
+  <div class="two-col">
+    <div class="table-section">
+      <div class="table-label weekday">📅 WEEKDAYS (Mon–Fri)</div>
+      <table id="table-weekday">
+        <thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="table-section">
+      <div class="table-label weekend">🎉 WEEKENDS (Sat–Sun)</div>
+      <table id="table-weekend">
+        <thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
-  <div id="table-all" class="tab-content active"><table><thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead><tbody></tbody></table></div>
-  <div id="table-weekday" class="tab-content"><table><thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead><tbody></tbody></table></div>
-  <div id="table-weekend" class="tab-content"><table><thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead><tbody></tbody></table></div>
+</div>
+
+<div class="card">
+  <h2>All-Days Summary (for reference)</h2>
+  <table id="table-all">
+    <thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
+    <tbody></tbody>
+  </table>
 </div>
 
 <div class="card">
@@ -119,7 +130,7 @@ function buildStats(rows){
   return {providers, latest};
 }
 
-function renderRecommend(containerId, provData, bucket, label){
+function renderRecommend(containerId, provData, bucket){
   let scores = [];
   Object.entries(provData).forEach(([p, data])=>{
     const vals = data.all[bucket];
@@ -139,15 +150,20 @@ function renderRecommend(containerId, provData, bucket, label){
       html += `<div style="margin-left:46px;color:var(--muted);font-size:.85rem">🥈 Runner-up: ${scores[1].p} @ ${scores[1].avg.toFixed(1)} tok/s (diff: ${d>=0?'+':''}${d.toFixed(1)})</div>`;
     }
   } else {
-    html = `<div style="color:var(--muted)">No ${label} data for ${bucket} yet.</div>`;
+    html = `<div style="color:var(--muted)">No data for ${bucket} yet.</div>`;
   }
   document.getElementById(containerId).innerHTML = html;
 }
 
-function renderTable(containerId, provData, dayFilter){
-  const tbody = document.querySelector(`#${containerId} tbody`);
+function renderTable(tableId, provData, dayFilter){
+  const tbody = document.querySelector(`#${tableId} tbody`);
   tbody.innerHTML = '';
-  Object.entries(provData).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([p, data])=>{
+  const entries = Object.entries(provData).sort((a,b)=>a[0].localeCompare(b[0]));
+  if(entries.length===0){
+    tbody.innerHTML = `<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:20px">No ${dayFilter} data yet</td></tr>`;
+    return;
+  }
+  entries.forEach(([p, data])=>{
     const tr = document.createElement('tr');
     let html = `<td>${p}</td>`;
     ['night','morning','afternoon','evening'].forEach(bucket=>{
@@ -174,9 +190,7 @@ function render(rows){
   document.getElementById('subtitle').textContent =
     `${now.toISOString().slice(0,16).replace('T',' ')} UTC · Bucket: ${bucket.toUpperCase()} · ${cronRows.length} cron runs`;
 
-  renderRecommend('recommend-all', providers, bucket, 'all-days');
-  renderRecommend('recommend-weekday', providers, bucket, 'weekday');
-  renderRecommend('recommend-weekend', providers, bucket, 'weekend');
+  renderRecommend('recommend-all', providers, bucket);
 
   // Latest runs
   let latestHtml = '<div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px 12px;font-size:.85rem">';
@@ -187,15 +201,15 @@ function render(rows){
     const tok = parseFloat(r.tok_s)||0;
     const cls = tok>=60?'fast':tok>=40?'':tok>=25?'warn':'slow';
     const isWknd = dayType(d)==='weekend';
-    const tag = isWknd ? '<span class="weekend-tag">Weekend</span>' : '';
+    const tag = isWknd ? '<span class="weekend-tag">Weekend</span>' : '<span class="weekday-tag">Weekday</span>';
     latestHtml += `<div>${p}${tag}</div><div>${ts}</div><div class="${cls}">${tok.toFixed(1)}</div><div>${parseFloat(r.ttft_ms).toFixed(0)}ms</div><div>${(parseFloat(r.total_ms)/1000).toFixed(1)}s</div>`;
   });
   latestHtml += '</div>';
   document.getElementById('latest').innerHTML = latestHtml;
 
-  renderTable('table-all', providers, 'all');
   renderTable('table-weekday', providers, 'weekday');
   renderTable('table-weekend', providers, 'weekend');
+  renderTable('table-all', providers, 'all');
 
   // Warnings
   let warnHtml = '';
@@ -208,18 +222,6 @@ function render(rows){
     }
   });
   document.getElementById('warnings').innerHTML = warnHtml || '<div style="color:var(--green)">All providers performing above 40 tok/s in current window.</div>';
-}
-
-function switchTab(mode){
-  document.querySelectorAll('#recommend-all, #recommend-weekday, #recommend-weekend').forEach(el=>el.classList.remove('active'));
-  document.getElementById('recommend-'+mode).classList.add('active');
-  document.querySelectorAll('.card:first-of-type .tab').forEach((t,i)=>t.classList.toggle('active', ['all','weekday','weekend'][i]===mode));
-}
-
-function switchTable(mode){
-  document.querySelectorAll('#table-all, #table-weekday, #table-weekend').forEach(el=>el.classList.remove('active'));
-  document.getElementById('table-'+mode).classList.add('active');
-  document.querySelectorAll('.card:nth-of-type(3) .tab').forEach((t,i)=>t.classList.toggle('active', ['all','weekday','weekend'][i]===mode));
 }
 
 function load(){
