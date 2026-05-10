@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Provider Speed Dashboard</title>
+<style>
+  :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;padding:16px;max-width:900px;margin:0 auto}
+  h1{font-size:1.4rem;margin-bottom:4px}
+  .subtitle{color:var(--muted);font-size:.85rem;margin-bottom:16px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px}
+  .card h2{font-size:1rem;margin-bottom:10px;color:var(--blue)}
+  .recommend{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .badge{font-size:1.6rem}
+  .provider-name{font-size:1.1rem;font-weight:600}
+  .stat-row{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
+  .stat-row span{color:var(--text)}
+  table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
+  th,td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--border)}
+  th:first-child,td:first-child{text-align:left}
+  th{color:var(--muted);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+  .fast{color:var(--green);font-weight:600}
+  .slow{color:var(--red)}
+  .warn{color:var(--yellow)}
+  .refresh{color:var(--muted);font-size:.75rem;margin-top:8px;text-align:center}
+  .latest{display:grid;grid-template-columns:1fr auto auto auto;gap:8px 12px;font-size:.85rem}
+  .latest div{border-bottom:1px solid var(--border);padding:4px 0}
+  .latest .header{color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)}
+  @media(max-width:600px){.latest{grid-template-columns:1fr auto auto}.latest .h-total{display:none}}
+</style>
+</head>
+<body>
+<h1>Provider Speed Dashboard</h1>
+<div class="subtitle" id="subtitle">Loading...</div>
+
+<div class="card">
+  <h2>Current Recommendation</h2>
+  <div id="recommend">Loading...</div>
+</div>
+
+<div class="card">
+  <h2>Latest Run Snapshot</h2>
+  <div class="latest" id="latest"></div>
+</div>
+
+<div class="card">
+  <h2>Time-of-Day Breakdown (tok/s)</h2>
+  <table id="breakdown"><thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead><tbody></tbody></table>
+</div>
+
+<div class="card">
+  <h2>Warnings</h2>
+  <div id="warnings">Loading...</div>
+</div>
+
+<div class="refresh">Auto-refreshes every 5 min &middot; <a href="https://github.com/thaneclaw/provider-speed-dashboard" style="color:var(--muted)">Source</a></div>
+
+<script>
+const CSV_URL = 'https://raw.githubusercontent.com/thaneclaw/provider-speed-dashboard/main/provider-speed.log';
+
+function parseCSV(text){
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',');
+  return lines.slice(1).map(line => {
+    const vals = line.split(',');
+    const obj = {};
+    headers.forEach((h,i)=>obj[h]=vals[i]||'');
+    return obj;
+  });
+}
+
+function timeBucket(h){
+  if(h<6) return 'night';
+  if(h<12) return 'morning';
+  if(h<18) return 'afternoon';
+  return 'evening';
+}
+
+function render(rows){
+  const providers = {};
+  const latest = {};
+  rows.forEach(r => {
+    const d = new Date(r.timestamp);
+    const p = r.provider;
+    const tok = parseFloat(r.tok_s)||0;
+    if(!providers[p]) providers[p] = {night:[],morning:[],afternoon:[],evening:[]};
+    providers[p][timeBucket(d.getUTCHours())].push(tok);
+    if(!latest[p] || new Date(r.timestamp) > new Date(latest[p].timestamp)) latest[p] = r;
+  });
+
+  const now = new Date();
+  const bucket = timeBucket(now.getUTCHours());
+  document.getElementById('subtitle').textContent =
+    `${now.toISOString().slice(0,16).replace('T',' ')} UTC · Bucket: ${bucket.toUpperCase()} · ${rows.length} runs`;
+
+  // Recommendation
+  let scores = [];
+  Object.entries(providers).forEach(([p,b])=>{
+    if(b[bucket].length){
+      const avg = b[bucket].reduce((a,v)=>a+v,0)/b[bucket].length;
+      scores.push({p,avg,n:b[bucket].length,min:Math.min(...b[bucket]),max:Math.max(...b[bucket])});
+    }
+  });
+  scores.sort((a,b)=>b.avg-a.avg);
+  let recHtml = '';
+  if(scores.length){
+    const best = scores[0];
+    recHtml += `<div class="recommend"><span class="badge">🥇</span><div><div class="provider-name">${best.p}</div>`;
+    recHtml += `<div class="stat-row">avg <span>${best.avg.toFixed(1)} tok/s</span> · range <span>${best.min.toFixed(1)}–${best.max.toFixed(1)}</span> · n=<span>${best.n}</span></div></div></div>`;
+    if(scores[1]){
+      const d = best.avg-scores[1].avg;
+      recHtml += `<div style="margin-left:46px;color:var(--muted);font-size:.85rem">🥈 Runner-up: ${scores[1].p} @ ${scores[1].avg.toFixed(1)} tok/s (diff: ${d>=0?'+':''}${d.toFixed(1)})</div>`;
+    }
+  } else {
+    recHtml = '<div style="color:var(--muted)">No data for current time bucket yet.</div>';
+  }
+  document.getElementById('recommend').innerHTML = recHtml;
+
+  // Latest runs
+  let latestHtml = '<div class="header"><div>Provider</div><div class="h-total">tok/s</div><div>TTFT</div><div class="h-total">Total</div></div>';
+  Object.entries(latest).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([p,r])=>{
+    const ts = r.timestamp.slice(5,16).replace('T',' ');
+    const tok = parseFloat(r.tok_s)||0;
+    const cls = tok>=60?'fast':tok>=40?'':tok>=25?'warn':'slow';
+    latestHtml += `<div>${p}</div><div class="h-total ${cls}">${tok.toFixed(1)}</div><div>${parseFloat(r.ttft_ms).toFixed(0)}ms</div><div class="h-total">${(parseFloat(r.total_ms)/1000).toFixed(1)}s</div>`;
+  });
+  document.getElementById('latest').innerHTML = latestHtml;
+
+  // Breakdown table
+  const tbody = document.querySelector('#breakdown tbody');
+  tbody.innerHTML = '';
+  Object.entries(providers).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([p,b])=>{
+    const tr = document.createElement('tr');
+    let html = `<td>${p}</td>`;
+    ['night','morning','afternoon','evening'].forEach(bucket=>{
+      if(b[bucket].length){
+        const avg = b[bucket].reduce((a,v)=>a+v,0)/b[bucket].length;
+        const cls = avg>=60?'fast':avg<25?'slow':avg<40?'warn':'';
+        html += `<td class="${cls}">${avg.toFixed(1)} <span style="color:var(--muted);font-size:.75rem">(${b[bucket].length})</span></td>`;
+      } else {
+        html += `<td style="color:var(--muted)">—</td>`;
+      }
+    });
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+
+  // Warnings
+  let warnHtml = '';
+  Object.entries(providers).forEach(([p,b])=>{
+    if(b[bucket].length){
+      const avg = b[bucket].reduce((a,v)=>a+v,0)/b[bucket].length;
+      if(avg<25) warnHtml += `<div style="color:var(--red);margin-bottom:4px">⚠️ ${p}: avg ${avg.toFixed(1)} tok/s in ${bucket} — critically slow</div>`;
+      else if(avg<40) warnHtml += `<div style="color:var(--yellow);margin-bottom:4px">⚠️ ${p}: avg ${avg.toFixed(1)} tok/s in ${bucket} — below ideal</div>`;
+    }
+  });
+  document.getElementById('warnings').innerHTML = warnHtml || '<div style="color:var(--green)">All providers performing above 40 tok/s in current window.</div>';
+}
+
+function load(){
+  fetch(CSV_URL+'?t='+Date.now())
+    .then(r=>r.text())
+    .then(text=>render(parseCSV(text)))
+    .catch(e=>document.getElementById('subtitle').textContent='Error loading data: '+e.message);
+}
+
+load();
+setInterval(load, 300000); // 5 min
+</script>
+</body>
+</html>
