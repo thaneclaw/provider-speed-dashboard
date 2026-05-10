@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Provider Speed Dashboard</title>
+<title>Provider Speed Dashboard — Cron Data Only</title>
 <style>
-  :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;}
+  :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--weekend:#a371f7;}
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;padding:16px;max-width:900px;margin:0 auto}
-  h1{font-size:1.4rem;margin-bottom:4px}
-  .subtitle{color:var(--muted);font-size:.85rem;margin-bottom:16px}
+  h1{font-size:1.3rem;margin-bottom:4px}
+  .subtitle{color:var(--muted);font-size:.8rem;margin-bottom:16px}
   .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px}
   .card h2{font-size:1rem;margin-bottom:10px;color:var(--blue)}
   .recommend{display:flex;align-items:center;gap:10px;margin-bottom:8px}
@@ -17,6 +17,7 @@
   .provider-name{font-size:1.1rem;font-weight:600}
   .stat-row{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
   .stat-row span{color:var(--text)}
+  .weekend-tag{background:var(--weekend);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:4px;margin-left:6px}
   table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
   th,td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--border)}
   th:first-child,td:first-child{text-align:left}
@@ -25,29 +26,46 @@
   .slow{color:var(--red)}
   .warn{color:var(--yellow)}
   .refresh{color:var(--muted);font-size:.75rem;margin-top:8px;text-align:center}
-  .latest{display:grid;grid-template-columns:1fr auto auto auto;gap:8px 12px;font-size:.85rem}
-  .latest div{border-bottom:1px solid var(--border);padding:4px 0}
-  .latest .header{color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)}
-  @media(max-width:600px){.latest{grid-template-columns:1fr auto auto}.latest .h-total{display:none}}
+  .note{color:var(--muted);font-size:.8rem;margin-bottom:8px}
+  .tabs{display:flex;gap:8px;margin-bottom:10px}
+  .tab{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:6px 14px;cursor:pointer;font-size:.85rem;color:var(--muted)}
+  .tab.active{color:var(--text);border-color:var(--blue)}
+  .tab-content{display:none}
+  .tab-content.active{display:block}
 </style>
 </head>
 <body>
 <h1>Provider Speed Dashboard</h1>
 <div class="subtitle" id="subtitle">Loading...</div>
+<div class="note">📅 Cron-only data (May 8, 2026 onwards) · All times UTC · Weekday/Weekend split enabled</div>
 
 <div class="card">
   <h2>Current Recommendation</h2>
-  <div id="recommend">Loading...</div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('all')">All Days</div>
+    <div class="tab" onclick="switchTab('weekday')">Weekdays</div>
+    <div class="tab" onclick="switchTab('weekend')">Weekends</div>
+  </div>
+  <div id="recommend-all" class="tab-content active">Loading...</div>
+  <div id="recommend-weekday" class="tab-content">Loading...</div>
+  <div id="recommend-weekend" class="tab-content">Loading...</div>
 </div>
 
 <div class="card">
   <h2>Latest Run Snapshot</h2>
-  <div class="latest" id="latest"></div>
+  <div id="latest"></div>
 </div>
 
 <div class="card">
   <h2>Time-of-Day Breakdown (tok/s)</h2>
-  <table id="breakdown"><thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead><tbody></tbody></table>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTable('all')">All Days</div>
+    <div class="tab" onclick="switchTable('weekday')">Weekdays</div>
+    <div class="tab" onclick="switchTable('weekend')">Weekends</div>
+  </div>
+  <div id="table-all" class="tab-content active"><table><thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead><tbody></tbody></table></div>
+  <div id="table-weekday" class="tab-content"><table><thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead><tbody></tbody></table></div>
+  <div id="table-weekend" class="tab-content"><table><thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead><tbody></tbody></table></div>
 </div>
 
 <div class="card">
@@ -55,15 +73,16 @@
   <div id="warnings">Loading...</div>
 </div>
 
-<div class="refresh">Auto-refreshes every 5 min &middot; <a href="https://github.com/thaneclaw/provider-speed-dashboard" style="color:var(--muted)">Source</a></div>
+<div class="refresh">Auto-refreshes every 5 min · Cron data only (May 8+) · UTC timestamps · Source: thaneclaw/provider-speed-dashboard</div>
 
 <script>
 const CSV_URL = 'https://raw.githubusercontent.com/thaneclaw/provider-speed-dashboard/main/provider-speed.log';
+const CRON_START = new Date('2026-05-08T00:00:00Z');
 
 function parseCSV(text){
   const lines = text.trim().split('\n');
   const headers = lines[0].split(',');
-  return lines.slice(1).map(line => {
+  return lines.slice(1).map(line=>{
     const vals = line.split(',');
     const obj = {};
     headers.forEach((h,i)=>obj[h]=vals[i]||'');
@@ -78,67 +97,65 @@ function timeBucket(h){
   return 'evening';
 }
 
-function render(rows){
+function dayType(d){
+  const wd = d.getUTCDay();
+  return (wd===0 || wd===6) ? 'weekend' : 'weekday';
+}
+
+function buildStats(rows){
   const providers = {};
   const latest = {};
-  rows.forEach(r => {
+  rows.forEach(r=>{
     const d = new Date(r.timestamp);
     const p = r.provider;
     const tok = parseFloat(r.tok_s)||0;
-    if(!providers[p]) providers[p] = {night:[],morning:[],afternoon:[],evening:[]};
-    providers[p][timeBucket(d.getUTCHours())].push(tok);
-    if(!latest[p] || new Date(r.timestamp) > new Date(latest[p].timestamp)) latest[p] = r;
+    const dt = dayType(d);
+    if(!providers[p]) providers[p] = {all:{night:[],morning:[],afternoon:[],evening:[]},weekday:{night:[],morning:[],afternoon:[],evening:[]},weekend:{night:[],morning:[],afternoon:[],evening:[]}};
+    const b = timeBucket(d.getUTCHours());
+    providers[p].all[b].push(tok);
+    providers[p][dt][b].push(tok);
+    if(!latest[p] || d > new Date(latest[p].timestamp)) latest[p] = r;
   });
+  return {providers, latest};
+}
 
-  const now = new Date();
-  const bucket = timeBucket(now.getUTCHours());
-  document.getElementById('subtitle').textContent =
-    `${now.toISOString().slice(0,16).replace('T',' ')} UTC · Bucket: ${bucket.toUpperCase()} · ${rows.length} runs`;
-
-  // Recommendation
+function renderRecommend(containerId, provData, bucket, label){
   let scores = [];
-  Object.entries(providers).forEach(([p,b])=>{
-    if(b[bucket].length){
-      const avg = b[bucket].reduce((a,v)=>a+v,0)/b[bucket].length;
-      scores.push({p,avg,n:b[bucket].length,min:Math.min(...b[bucket]),max:Math.max(...b[bucket])});
+  Object.entries(provData).forEach(([p, data])=>{
+    const vals = data.all[bucket];
+    if(vals.length){
+      const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
+      scores.push({p,avg,n:vals.length,min:Math.min(...vals),max:Math.max(...vals)});
     }
   });
   scores.sort((a,b)=>b.avg-a.avg);
-  let recHtml = '';
+  let html = '';
   if(scores.length){
     const best = scores[0];
-    recHtml += `<div class="recommend"><span class="badge">🥇</span><div><div class="provider-name">${best.p}</div>`;
-    recHtml += `<div class="stat-row">avg <span>${best.avg.toFixed(1)} tok/s</span> · range <span>${best.min.toFixed(1)}–${best.max.toFixed(1)}</span> · n=<span>${best.n}</span></div></div></div>`;
+    html += `<div class="recommend"><span class="badge">🥇</span><div><div class="provider-name">${best.p}</div>`;
+    html += `<div class="stat-row">avg <span>${best.avg.toFixed(1)} tok/s</span> · range <span>${best.min.toFixed(1)}–${best.max.toFixed(1)}</span> · n=<span>${best.n}</span></div></div></div>`;
     if(scores[1]){
       const d = best.avg-scores[1].avg;
-      recHtml += `<div style="margin-left:46px;color:var(--muted);font-size:.85rem">🥈 Runner-up: ${scores[1].p} @ ${scores[1].avg.toFixed(1)} tok/s (diff: ${d>=0?'+':''}${d.toFixed(1)})</div>`;
+      html += `<div style="margin-left:46px;color:var(--muted);font-size:.85rem">🥈 Runner-up: ${scores[1].p} @ ${scores[1].avg.toFixed(1)} tok/s (diff: ${d>=0?'+':''}${d.toFixed(1)})</div>`;
     }
   } else {
-    recHtml = '<div style="color:var(--muted)">No data for current time bucket yet.</div>';
+    html = `<div style="color:var(--muted)">No ${label} data for ${bucket} yet.</div>`;
   }
-  document.getElementById('recommend').innerHTML = recHtml;
+  document.getElementById(containerId).innerHTML = html;
+}
 
-  // Latest runs
-  let latestHtml = '<div class="header"><div>Provider</div><div class="h-total">tok/s</div><div>TTFT</div><div class="h-total">Total</div></div>';
-  Object.entries(latest).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([p,r])=>{
-    const ts = r.timestamp.slice(5,16).replace('T',' ');
-    const tok = parseFloat(r.tok_s)||0;
-    const cls = tok>=60?'fast':tok>=40?'':tok>=25?'warn':'slow';
-    latestHtml += `<div>${p}</div><div class="h-total ${cls}">${tok.toFixed(1)}</div><div>${parseFloat(r.ttft_ms).toFixed(0)}ms</div><div class="h-total">${(parseFloat(r.total_ms)/1000).toFixed(1)}s</div>`;
-  });
-  document.getElementById('latest').innerHTML = latestHtml;
-
-  // Breakdown table
-  const tbody = document.querySelector('#breakdown tbody');
+function renderTable(containerId, provData, dayFilter){
+  const tbody = document.querySelector(`#${containerId} tbody`);
   tbody.innerHTML = '';
-  Object.entries(providers).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([p,b])=>{
+  Object.entries(provData).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([p, data])=>{
     const tr = document.createElement('tr');
     let html = `<td>${p}</td>`;
     ['night','morning','afternoon','evening'].forEach(bucket=>{
-      if(b[bucket].length){
-        const avg = b[bucket].reduce((a,v)=>a+v,0)/b[bucket].length;
+      const vals = data[dayFilter][bucket];
+      if(vals.length){
+        const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
         const cls = avg>=60?'fast':avg<25?'slow':avg<40?'warn':'';
-        html += `<td class="${cls}">${avg.toFixed(1)} <span style="color:var(--muted);font-size:.75rem">(${b[bucket].length})</span></td>`;
+        html += `<td class="${cls}">${avg.toFixed(1)} <span style="color:var(--muted);font-size:.75rem">(${vals.length})</span></td>`;
       } else {
         html += `<td style="color:var(--muted)">—</td>`;
       }
@@ -146,17 +163,63 @@ function render(rows){
     tr.innerHTML = html;
     tbody.appendChild(tr);
   });
+}
+
+function render(rows){
+  const cronRows = rows.filter(r=> new Date(r.timestamp) >= CRON_START);
+  const {providers, latest} = buildStats(cronRows);
+
+  const now = new Date();
+  const bucket = timeBucket(now.getUTCHours());
+  document.getElementById('subtitle').textContent =
+    `${now.toISOString().slice(0,16).replace('T',' ')} UTC · Bucket: ${bucket.toUpperCase()} · ${cronRows.length} cron runs`;
+
+  renderRecommend('recommend-all', providers, bucket, 'all-days');
+  renderRecommend('recommend-weekday', providers, bucket, 'weekday');
+  renderRecommend('recommend-weekend', providers, bucket, 'weekend');
+
+  // Latest runs
+  let latestHtml = '<div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px 12px;font-size:.85rem">';
+  latestHtml += '<div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Provider</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Date</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">tok/s</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">TTFT</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Total</div>';
+  Object.entries(latest).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([p,r])=>{
+    const d = new Date(r.timestamp);
+    const ts = d.toISOString().slice(5,16).replace('T',' ');
+    const tok = parseFloat(r.tok_s)||0;
+    const cls = tok>=60?'fast':tok>=40?'':tok>=25?'warn':'slow';
+    const isWknd = dayType(d)==='weekend';
+    const tag = isWknd ? '<span class="weekend-tag">Weekend</span>' : '';
+    latestHtml += `<div>${p}${tag}</div><div>${ts}</div><div class="${cls}">${tok.toFixed(1)}</div><div>${parseFloat(r.ttft_ms).toFixed(0)}ms</div><div>${(parseFloat(r.total_ms)/1000).toFixed(1)}s</div>`;
+  });
+  latestHtml += '</div>';
+  document.getElementById('latest').innerHTML = latestHtml;
+
+  renderTable('table-all', providers, 'all');
+  renderTable('table-weekday', providers, 'weekday');
+  renderTable('table-weekend', providers, 'weekend');
 
   // Warnings
   let warnHtml = '';
-  Object.entries(providers).forEach(([p,b])=>{
-    if(b[bucket].length){
-      const avg = b[bucket].reduce((a,v)=>a+v,0)/b[bucket].length;
+  Object.entries(providers).forEach(([p,data])=>{
+    const vals = data.all[bucket];
+    if(vals.length){
+      const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
       if(avg<25) warnHtml += `<div style="color:var(--red);margin-bottom:4px">⚠️ ${p}: avg ${avg.toFixed(1)} tok/s in ${bucket} — critically slow</div>`;
       else if(avg<40) warnHtml += `<div style="color:var(--yellow);margin-bottom:4px">⚠️ ${p}: avg ${avg.toFixed(1)} tok/s in ${bucket} — below ideal</div>`;
     }
   });
   document.getElementById('warnings').innerHTML = warnHtml || '<div style="color:var(--green)">All providers performing above 40 tok/s in current window.</div>';
+}
+
+function switchTab(mode){
+  document.querySelectorAll('#recommend-all, #recommend-weekday, #recommend-weekend').forEach(el=>el.classList.remove('active'));
+  document.getElementById('recommend-'+mode).classList.add('active');
+  document.querySelectorAll('.card:first-of-type .tab').forEach((t,i)=>t.classList.toggle('active', ['all','weekday','weekend'][i]===mode));
+}
+
+function switchTable(mode){
+  document.querySelectorAll('#table-all, #table-weekday, #table-weekend').forEach(el=>el.classList.remove('active'));
+  document.getElementById('table-'+mode).classList.add('active');
+  document.querySelectorAll('.card:nth-of-type(3) .tab').forEach((t,i)=>t.classList.toggle('active', ['all','weekday','weekend'][i]===mode));
 }
 
 function load(){
@@ -167,7 +230,7 @@ function load(){
 }
 
 load();
-setInterval(load, 300000); // 5 min
+setInterval(load, 300000);
 </script>
 </body>
 </html>
