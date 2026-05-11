@@ -115,3 +115,32 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-05-11T09:30:09Z,Ollama Cloud,kimi-k2.6,931,29975,723,24.1,morning
 2026-05-11T09:30:52Z,OpenCode Go,kimi-k2.6,2117,42947,683,15.9,morning
 2026-05-11T09:31:05Z,Canopy Wave,moonshotai/kimi-k2.6,2487,13219,714,54.0,morning
+2026-05-11T09:35:42Z,Ollama Cloud,kimi-k2.6,3682,41238,675,16.4,morning
+2026-05-11T09:36:06Z,OpenCode Go,kimi-k2.6,1969,24335,703,28.9,morning
+2026-05-11T09:36:17Z,Canopy Wave,moonshotai/kimi-k2.6,1455,10718,681,63.5,morning
+2026-05-11T10:02:59Z,Ollama:kimi,kimi-k2.6,11368,14505,352,24.3,morning
+2026-05-11T10:02:59Z,Ollama:ds-flash,deepseek-v4-flash,1221,26324,161,6.1,morning
+2026-05-11T10:02:59Z,Ollama:glm,glm-5.1,1742,18458,274,14.8,morning
+2026-05-11T10:02:59Z,OpenCode:kimi,kimi-k2.6,4096,16292,326,20.0,morning
+2026-05-11T10:02:59Z,OpenCode:ds-pro,deepseek-v4-pro,1893,8240,261,31.7,morning
+2026-05-11T10:02:59Z,OpenCode:ds-flash,deepseek-v4-flash,2248,7728,342,44.3,morning
+2026-05-11T10:02:59Z,OpenCode:glm,glm-5.1,24668,39336,274,7.0,morning
+2026-05-11T10:02:59Z,Canopy:kimi,moonshotai/kimi-k2.6,2868,6039,339,56.1,morning
+2026-05-11T10:10:32Z,Ollama:kimi,kimi-k2.6,2928,20300,723,35.6,morning
+2026-05-11T10:11:12Z,Ollama:ds-pro,deepseek-v4-pro,16658,39468,697,17.7,morning
+2026-05-11T10:11:28Z,Ollama:ds-flash,deepseek-v4-flash,12304,16496,686,41.6,morning
+2026-05-11T10:11:49Z,Ollama:glm,glm-5.1,1276,20780,637,30.7,morning
+2026-05-11T10:12:13Z,OpenCode:kimi,kimi-k2.6,2154,24454,719,29.4,morning
+2026-05-11T10:12:32Z,OpenCode:ds-pro,deepseek-v4-pro,1549,18942,666,35.2,morning
+2026-05-11T10:12:45Z,OpenCode:ds-flash,deepseek-v4-flash,1386,12172,601,49.4,morning
+2026-05-11T10:13:13Z,OpenCode:glm,glm-5.1,2569,28117,645,22.9,morning
+2026-05-11T10:13:23Z,Canopy:kimi,moonshotai/kimi-k2.6,1522,10073,698,69.3,morning
+2026-05-11T10:37:07Z,Ollama:kimi,kimi-k2.6,15059,36776,700,19.0,morning
+2026-05-11T10:37:51Z,Ollama:ds-pro,deepseek-v4-pro,12290,43722,730,16.7,morning
+2026-05-11T10:38:42Z,Ollama:ds-flash,deepseek-v4-flash,7456,50652,720,14.2,morning
+2026-05-11T10:39:12Z,Ollama:glm,glm-5.1,1196,29814,623,20.9,morning
+2026-05-11T10:39:32Z,OpenCode:kimi,kimi-k2.6,2029,20506,712,34.7,morning
+2026-05-11T10:39:52Z,OpenCode:ds-pro,deepseek-v4-pro,1405,19408,702,36.2,morning
+2026-05-11T10:40:04Z,OpenCode:ds-flash,deepseek-v4-flash,1623,12288,609,49.6,morning
+2026-05-11T10:40:19Z,OpenCode:glm,glm-5.1,6231,15033,610,40.6,morning
+2026-05-11T10:40:26Z,Canopy:kimi,moonshotai/kimi-k2.6,993,7293,732,100.4,morning
