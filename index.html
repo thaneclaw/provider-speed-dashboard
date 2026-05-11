@@ -168,7 +168,9 @@ function renderRecommend(containerId, latestData){
   Object.entries(latestData).forEach(([key, r])=>{
     const mp = parseModelProvider(r.provider);
     const tok = parseFloat(r.tok_s)||0;
-    scores.push({model: mp.model, provider: mp.provider, tok, ttft: parseFloat(r.ttft_ms).toFixed(0), total: (parseFloat(r.total_ms)/1000).toFixed(1)});
+    const d = new Date(r.timestamp);
+    const ts = d.toISOString().slice(5,16).replace('T',' ');
+    scores.push({model: mp.model, provider: mp.provider, tok, ttft: parseFloat(r.ttft_ms).toFixed(0), total: (parseFloat(r.total_ms)/1000).toFixed(1), ts});
   });
   scores.sort((a,b)=>b.tok-a.tok);
   let html = '';
@@ -178,7 +180,7 @@ function renderRecommend(containerId, latestData){
       const emoji = i===0?'🥇':i===1?'🥈':'🥉';
       const cls = s.tok>=60?'fast':s.tok<25?'slow':s.tok<40?'warn':'';
       html += `<div class="recommend"><span class="badge">${emoji}</span><div><div class="provider-name">${s.model} @ ${s.provider}</div>`;
-      html += `<div class="stat-row"><span class="${cls}">${s.tok.toFixed(1)} tok/s</span> · TTFT <span>${s.ttft}ms</span> · total <span>${s.total}s</span></div></div></div>`;
+      html += `<div class="stat-row"><span class="${cls}">${s.tok.toFixed(1)} tok/s</span> · TTFT <span>${s.ttft}ms</span> · total <span>${s.total}s</span> · <span style="color:var(--muted)">${s.ts}</span></div></div></div>`;
     });
   } else {
     html = `<div style="color:var(--muted)">No runs yet.</div>`;
