@@ -163,26 +163,25 @@ function groupByModel(modelData){
   return ordered;
 }
 
-function renderRecommend(containerId, modelData, bucket){
+function renderRecommend(containerId, latestData){
   let scores = [];
-  Object.entries(modelData).forEach(([key, data])=>{
-    const vals = data.all[bucket];
-    if(vals && vals.length){
-      const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
-      scores.push({key, model:data.model, provider:data.provider, avg, n:vals.length, min:Math.min(...vals), max:Math.max(...vals)});
-    }
+  Object.entries(latestData).forEach(([key, r])=>{
+    const mp = parseModelProvider(r.provider);
+    const tok = parseFloat(r.tok_s)||0;
+    scores.push({model: mp.model, provider: mp.provider, tok, ttft: parseFloat(r.ttft_ms).toFixed(0), total: (parseFloat(r.total_ms)/1000).toFixed(1)});
   });
-  scores.sort((a,b)=>b.avg-a.avg);
+  scores.sort((a,b)=>b.tok-a.tok);
   let html = '';
   if(scores.length){
     const top3 = scores.slice(0,3);
     top3.forEach((s,i)=>{
       const emoji = i===0?'🥇':i===1?'🥈':'🥉';
+      const cls = s.tok>=60?'fast':s.tok<25?'slow':s.tok<40?'warn':'';
       html += `<div class="recommend"><span class="badge">${emoji}</span><div><div class="provider-name">${s.model} @ ${s.provider}</div>`;
-      html += `<div class="stat-row">avg <span>${s.avg.toFixed(1)} tok/s</span> · range <span>${s.min.toFixed(1)}–${s.max.toFixed(1)}</span> · n=<span>${s.n}</span></div></div></div>`;
+      html += `<div class="stat-row"><span class="${cls}">${s.tok.toFixed(1)} tok/s</span> · TTFT <span>${s.ttft}ms</span> · total <span>${s.total}s</span></div></div></div>`;
     });
   } else {
-    html = `<div style="color:var(--muted)">No data for ${bucket} yet.</div>`;
+    html = `<div style="color:var(--muted)">No runs yet.</div>`;
   }
   document.getElementById(containerId).innerHTML = html;
 }
@@ -230,7 +229,7 @@ function render(rows){
   document.getElementById('subtitle').textContent =
     `${now.toISOString().slice(0,16).replace('T',' ')} UTC · Bucket: ${bucket.toUpperCase()} · ${cronRows.length} runs`;
 
-  renderRecommend('recommend-all', models, bucket);
+  renderRecommend('recommend-all', latest);
 
   // Latest runs
   let latestHtml = '<div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px 12px;font-size:.85rem">';
@@ -261,17 +260,15 @@ function render(rows){
   renderTable('table-weekday', models, 'weekday');
   renderTable('table-weekend', models, 'weekend');
 
-  // Warnings
+  // Warnings based on latest run
   let warnHtml = '';
-  Object.entries(models).forEach(([key,data])=>{
-    const vals = data.all[bucket];
-    if(vals && vals.length){
-      const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
-      if(avg<25) warnHtml += `<div style="color:var(--red);margin-bottom:4px">⚠️ ${data.model} @ ${data.provider}: avg ${avg.toFixed(1)} tok/s in ${bucket} — critically slow</div>`;
-      else if(avg<40) warnHtml += `<div style="color:var(--yellow);margin-bottom:4px">⚠️ ${data.model} @ ${data.provider}: avg ${avg.toFixed(1)} tok/s in ${bucket} — below ideal</div>`;
-    }
+  Object.entries(latest).forEach(([key,r])=>{
+    const mp = parseModelProvider(r.provider);
+    const tok = parseFloat(r.tok_s)||0;
+    if(tok<25) warnHtml += `<div style="color:var(--red);margin-bottom:4px">⚠️ ${mp.model} @ ${mp.provider}: ${tok.toFixed(1)} tok/s in latest run — critically slow</div>`;
+    else if(tok<40) warnHtml += `<div style="color:var(--yellow);margin-bottom:4px">⚠️ ${mp.model} @ ${mp.provider}: ${tok.toFixed(1)} tok/s in latest run — below ideal</div>`;
   });
-  document.getElementById('warnings').innerHTML = warnHtml || '<div style="color:var(--green)">All models averaging ≥40 tok/s in current window.</div>';
+  document.getElementById('warnings').innerHTML = warnHtml || '<div style="color:var(--green)">All models ≥40 tok/s in latest run.</div>';
 }
 
 function load(){
