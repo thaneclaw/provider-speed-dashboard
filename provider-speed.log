@@ -179,3 +179,30 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-05-11T15:09:17Z,DS V4 Flash — OpenCode Go,deepseek-v4-flash,1089,11502,581,50.5,morning
 2026-05-11T15:09:47Z,GLM 5.1 — OpenCode Go,glm-5.1,1323,30214,632,20.9,morning
 2026-05-11T15:09:57Z,kimi — Canopy Wave,moonshotai/kimi-k2.6,3621,10313,703,68.2,morning
+2026-05-11T16:10:48Z,kimi — Ollama Cloud,kimi-k2.6,2258,23126,730,31.6,morning
+2026-05-11T16:11:32Z,GLM 5.1 — Ollama Cloud,glm-5.1,1045,31450,634,20.2,morning
+2026-05-11T16:11:56Z,kimi — OpenCode Go,kimi-k2.6,2425,23792,680,28.6,morning
+2026-05-11T16:12:14Z,DS V4 Pro — OpenCode Go,deepseek-v4-pro,1557,18749,698,37.2,morning
+2026-05-11T16:12:26Z,DS V4 Flash — OpenCode Go,deepseek-v4-flash,1400,11928,589,49.4,morning
+2026-05-11T16:12:40Z,GLM 5.1 — OpenCode Go,glm-5.1,1432,13486,630,46.7,morning
+2026-05-11T16:12:48Z,kimi — Canopy Wave,moonshotai/kimi-k2.6,1105,8325,705,84.7,morning
+2026-05-11T16:13:05Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,3135,16440,596,36.3,morning
+2026-05-11T17:13:22Z,kimi — Ollama Cloud,kimi-k2.6,1430,16967,723,42.6,morning
+2026-05-11T17:13:41Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,10013,18676,688,36.8,morning
+2026-05-11T17:13:57Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,4500,15611,686,43.9,morning
+2026-05-11T17:14:26Z,GLM 5.1 — Ollama Cloud,glm-5.1,3345,28841,639,22.2,morning
+2026-05-11T17:14:38Z,kimi — OpenCode Go,kimi-k2.6,2295,12466,712,57.1,morning
+2026-05-11T17:14:56Z,DS V4 Pro — OpenCode Go,deepseek-v4-pro,1461,18389,692,37.6,morning
+2026-05-11T17:15:06Z,DS V4 Flash — OpenCode Go,deepseek-v4-flash,1180,9487,586,61.8,morning
+2026-05-11T17:15:14Z,GLM 5.1 — OpenCode Go,glm-5.1,1766,8416,609,72.4,morning
+2026-05-11T17:15:24Z,kimi — Canopy Wave,moonshotai/kimi-k2.6,1895,9582,724,75.6,morning
+2026-05-11T17:15:30Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,439,5724,617,107.8,morning
+2026-05-11T18:16:50Z,kimi — Ollama Cloud,kimi-k2.6,5536,37826,713,18.8,evening
+2026-05-11T18:17:37Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,5996,44294,702,15.8,evening
+2026-05-11T18:17:45Z,GLM 5.1 — Ollama Cloud,glm-5.1,3574,7969,632,79.3,evening
+2026-05-11T18:17:57Z,kimi — OpenCode Go,kimi-k2.6,1650,12507,687,54.9,evening
+2026-05-11T18:18:16Z,DS V4 Pro — OpenCode Go,deepseek-v4-pro,1663,18752,709,37.8,evening
+2026-05-11T18:18:25Z,DS V4 Flash — OpenCode Go,deepseek-v4-flash,1360,9162,629,68.7,evening
+2026-05-11T18:18:44Z,GLM 5.1 — OpenCode Go,glm-5.1,4774,18647,592,31.7,evening
+2026-05-11T18:18:53Z,kimi — Canopy Wave,moonshotai/kimi-k2.6,2192,9570,656,68.6,evening
+2026-05-11T18:19:16Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,15584,22423,553,24.7,evening
