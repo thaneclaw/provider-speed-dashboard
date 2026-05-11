@@ -97,3 +97,12 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-05-11T03:30:01Z,Ollama Cloud,kimi-k2.6,994,10632,668,62.8,morning
 2026-05-11T03:30:12Z,OpenCode Go,kimi-k2.6,1362,11376,731,64.3,morning
 2026-05-11T03:30:32Z,Canopy Wave,moonshotai/kimi-k2.6,6779,19615,728,37.1,morning
+2026-05-11T04:30:58Z,Ollama Cloud,kimi-k2.6,1182,9916,694,70.0,morning
+2026-05-11T04:31:04Z,OpenCode Go,kimi-k2.6,1405,6154,683,111.0,morning
+2026-05-11T04:31:14Z,Canopy Wave,moonshotai/kimi-k2.6,1267,9853,722,73.3,morning
+2026-05-11T05:31:35Z,Ollama Cloud,kimi-k2.6,1001,12602,678,53.8,morning
+2026-05-11T05:31:50Z,OpenCode Go,kimi-k2.6,2337,15456,723,46.8,morning
+2026-05-11T05:31:58Z,Canopy Wave,moonshotai/kimi-k2.6,2353,8121,668,82.3,morning
+2026-05-11T06:32:22Z,Ollama Cloud,kimi-k2.6,930,7956,660,83.0,morning
+2026-05-11T06:32:48Z,OpenCode Go,kimi-k2.6,3143,25760,678,26.3,morning
+2026-05-11T06:33:02Z,Canopy Wave,moonshotai/kimi-k2.6,5652,14408,673,46.7,morning
