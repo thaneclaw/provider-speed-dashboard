@@ -246,3 +246,13 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-05-11T22:33:36Z,GLM 5.1 — OpenCode Go,glm-5.1,1873,8386,649,77.4,evening
 2026-05-11T22:33:44Z,kimi — Canopy Wave,moonshotai/kimi-k2.6,1193,8551,708,82.8,evening
 2026-05-11T22:33:50Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,419,5577,613,109.9,evening
+2026-05-11T23:34:44Z,kimi — Ollama Cloud,kimi-k2.6,1142,9887,646,65.3,evening
+2026-05-11T23:34:53Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,567,8307,704,84.7,evening
+2026-05-11T23:35:08Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,863,15255,687,45.0,evening
+2026-05-11T23:35:31Z,GLM 5.1 — Ollama Cloud,glm-5.1,1013,22947,594,25.9,evening
+2026-05-11T23:35:42Z,kimi — OpenCode Go,kimi-k2.6,2371,11439,671,58.7,evening
+2026-05-11T23:36:02Z,DS V4 Pro — OpenCode Go,deepseek-v4-pro,1568,19881,711,35.8,evening
+2026-05-11T23:36:09Z,DS V4 Flash — OpenCode Go,deepseek-v4-flash,1055,7122,587,82.4,evening
+2026-05-11T23:36:16Z,GLM 5.1 — OpenCode Go,glm-5.1,980,6633,601,90.6,evening
+2026-05-11T23:36:30Z,kimi — Canopy Wave,moonshotai/kimi-k2.6,5813,13916,665,47.8,evening
+2026-05-11T23:36:36Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,442,6160,595,96.6,evening
