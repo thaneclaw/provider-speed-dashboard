@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Provider Speed Dashboard — v3</title>
+<title>Provider Speed Dashboard — Model-First v3.2</title>
 <style>
   :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--purple:#a371f7;--cyan:#39c5cf;--weekend:#a371f7;--weekday:#79c0ff;}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -31,15 +31,15 @@
   .table-label.weekday{background:rgba(121,192,255,.15);color:var(--weekday)}
   .table-label.weekend{background:rgba(163,113,247,.15);color:var(--weekend)}
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .model-tag{background:var(--purple);color:#fff;font-size:.65rem;padding:2px 6px;border-radius:3px;margin-left:4px;white-space:nowrap}
-  .provider-group{font-weight:600;color:var(--blue)}
+  .model-header{font-weight:700;color:var(--blue);font-size:.9rem;background:rgba(88,166,255,.08);padding:6px 6px;border-radius:4px;margin-top:4px}
+  .provider-indent{padding-left:16px;color:var(--text)}
   @media(max-width:700px){.two-col{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <h1>Provider Speed Dashboard</h1>
 <div class="subtitle" id="subtitle">Loading...</div>
-<div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3 (9 models)</div>
+<div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.2 (model-first grouping)</div>
 
 <div class="card">
   <h2>🏆 Fastest Models Right Now</h2>
@@ -52,19 +52,19 @@
 </div>
 
 <div class="card">
-  <h2>Time-of-Day Breakdown</h2>
+  <h2>Time-of-Day Breakdown — By Model</h2>
   <div class="two-col">
     <div class="table-section">
       <div class="table-label weekday">📅 WEEKDAYS</div>
       <table id="table-weekday">
-        <thead><tr><th>Model</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
+        <thead><tr><th>Model / Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
     <div class="table-section">
       <div class="table-label weekend">🎉 WEEKENDS</div>
       <table id="table-weekend">
-        <thead><tr><th>Model</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
+        <thead><tr><th>Model / Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -76,7 +76,7 @@
   <div id="warnings">Loading...</div>
 </div>
 
-<div class="refresh">v3 · 9 models · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
+<div class="refresh">v3.2 · Model-first · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
 
 <script>
 const CSV_URL = 'https://raw.githubusercontent.com/thaneclaw/provider-speed-dashboard/main/provider-speed.log';
@@ -105,31 +105,71 @@ function dayType(d){
   return (wd===0 || wd===6) ? 'weekend' : 'weekday';
 }
 
+// Parse "Model — Provider" format
+function parseModelProvider(label){
+  if(label.includes(' — ')){
+    const parts = label.split(' — ');
+    return {model: parts[0].trim(), provider: parts[1].trim()};
+  }
+  // Fallback for old formats
+  if(label.includes(':')){
+    const parts = label.split(':');
+    return {model: parts[1].trim(), provider: parts[0].trim()};
+  }
+  // Legacy provider-only labels (pre-v3)
+  const providerMap = {
+    'Canopy Wave': 'kimi', 'Ollama Cloud': 'kimi', 'OpenCode Go': 'kimi',
+    'Canopy': 'kimi', 'Ollama': 'kimi'
+  };
+  for(const [prov, model] of Object.entries(providerMap)){
+    if(label.includes(prov)) return {model: model, provider: prov};
+  }
+  return {model: label, provider: 'Unknown'};
+}
+
 function buildStats(rows){
   const models = {};
   const latest = {};
   rows.forEach(r=>{
     const d = new Date(r.timestamp);
-    // Group key: provider:model string
-    const mk = r.provider; // e.g. "Ollama:ds-pro"
+    const mp = parseModelProvider(r.provider);
+    const groupKey = mp.model + ' — ' + mp.provider;
     const tok = parseFloat(r.tok_s)||0;
     const dt = dayType(d);
-    if(!models[mk]) models[mk] = {all:{night:[],morning:[],afternoon:[],evening:[]},weekday:{night:[],morning:[],afternoon:[],evening:[]},weekend:{night:[],morning:[],afternoon:[],evening:[]}};
+    if(!models[groupKey]) models[groupKey] = {model: mp.model, provider: mp.provider, all:{night:[],morning:[],afternoon:[],evening:[]},weekday:{night:[],morning:[],afternoon:[],evening:[]},weekend:{night:[],morning:[],afternoon:[],evening:[]}};
     const b = timeBucket(d.getUTCHours());
-    models[mk].all[b].push(tok);
-    models[mk][dt][b].push(tok);
-    if(!latest[mk] || d > new Date(latest[mk].timestamp)) latest[mk] = r;
+    models[groupKey].all[b].push(tok);
+    models[groupKey][dt][b].push(tok);
+    if(!latest[groupKey] || d > new Date(latest[groupKey].timestamp)) latest[groupKey] = r;
   });
   return {models, latest};
 }
 
+function groupByModel(modelData){
+  const grouped = {};
+  Object.values(modelData).forEach(entry=>{
+    if(!grouped[entry.model]) grouped[entry.model] = [];
+    grouped[entry.model].push(entry);
+  });
+  // Sort models: kimi first, then DS V4 Pro, DS V4 Flash, GLM 5.1
+  const modelOrder = ['kimi', 'DS V4 Pro', 'DS V4 Flash', 'GLM 5.1'];
+  const ordered = {};
+  modelOrder.forEach(m=>{ if(grouped[m]) ordered[m] = grouped[m]; });
+  Object.keys(grouped).sort().forEach(m=>{ if(!ordered[m]) ordered[m] = grouped[m]; });
+  // Sort providers within each model
+  Object.values(ordered).forEach(list=>{
+    list.sort((a,b)=>a.provider.localeCompare(b.provider));
+  });
+  return ordered;
+}
+
 function renderRecommend(containerId, modelData, bucket){
   let scores = [];
-  Object.entries(modelData).forEach(([mk, data])=>{
+  Object.entries(modelData).forEach(([key, data])=>{
     const vals = data.all[bucket];
     if(vals && vals.length){
       const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
-      scores.push({mk,avg,n:vals.length,min:Math.min(...vals),max:Math.max(...vals)});
+      scores.push({key, model:data.model, provider:data.provider, avg, n:vals.length, min:Math.min(...vals), max:Math.max(...vals)});
     }
   });
   scores.sort((a,b)=>b.avg-a.avg);
@@ -138,7 +178,7 @@ function renderRecommend(containerId, modelData, bucket){
     const top3 = scores.slice(0,3);
     top3.forEach((s,i)=>{
       const emoji = i===0?'🥇':i===1?'🥈':'🥉';
-      html += `<div class="recommend"><span class="badge">${emoji}</span><div><div class="provider-name">${s.mk}</div>`;
+      html += `<div class="recommend"><span class="badge">${emoji}</span><div><div class="provider-name">${s.model} @ ${s.provider}</div>`;
       html += `<div class="stat-row">avg <span>${s.avg.toFixed(1)} tok/s</span> · range <span>${s.min.toFixed(1)}–${s.max.toFixed(1)}</span> · n=<span>${s.n}</span></div></div></div>`;
     });
   } else {
@@ -150,26 +190,34 @@ function renderRecommend(containerId, modelData, bucket){
 function renderTable(tableId, modelData, dayFilter){
   const tbody = document.querySelector(`#${tableId} tbody`);
   tbody.innerHTML = '';
-  const entries = Object.entries(modelData).sort((a,b)=>a[0].localeCompare(b[0]));
-  if(entries.length===0){
+  const grouped = groupByModel(modelData);
+  const groups = Object.entries(grouped);
+  if(groups.length===0){
     tbody.innerHTML = `<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:20px">No ${dayFilter} data yet</td></tr>`;
     return;
   }
-  entries.forEach(([mk, data])=>{
-    const tr = document.createElement('tr');
-    let html = `<td><span style="font-weight:600">${mk}</span></td>`;
-    ['night','morning','afternoon','evening'].forEach(bucket=>{
-      const vals = data[dayFilter][bucket];
-      if(vals && vals.length){
-        const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
-        const cls = avg>=60?'fast':avg<25?'slow':avg<40?'warn':'';
-        html += `<td class="${cls}">${avg.toFixed(1)} <span style="color:var(--muted);font-size:.75rem">(${vals.length})</span></td>`;
-      } else {
-        html += `<td style="color:var(--muted)">—</td>`;
-      }
+  groups.forEach(([modelName, providers])=>{
+    // Model header row
+    const headerTr = document.createElement('tr');
+    headerTr.innerHTML = `<td colspan="5" class="model-header">${modelName}</td>`;
+    tbody.appendChild(headerTr);
+    // Provider rows
+    providers.forEach(p=>{
+      const tr = document.createElement('tr');
+      let html = `<td class="provider-indent">— ${p.provider}</td>`;
+      ['night','morning','afternoon','evening'].forEach(bucket=>{
+        const vals = p[dayFilter][bucket];
+        if(vals && vals.length){
+          const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
+          const cls = avg>=60?'fast':avg<25?'slow':avg<40?'warn':'';
+          html += `<td class="${cls}">${avg.toFixed(1)} <span style="color:var(--muted);font-size:.75rem">(${vals.length})</span></td>`;
+        } else {
+          html += `<td style="color:var(--muted)">—</td>`;
+        }
+      });
+      tr.innerHTML = html;
+      tbody.appendChild(tr);
     });
-    tr.innerHTML = html;
-    tbody.appendChild(tr);
   });
 }
 
@@ -186,15 +234,16 @@ function render(rows){
 
   // Latest runs
   let latestHtml = '<div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px 12px;font-size:.85rem">';
-  latestHtml += '<div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Model</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Time</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">tok/s</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">TTFT</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Total</div>';
-  Object.entries(latest).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([mk,r])=>{
+  latestHtml += '<div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Model @ Provider</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Time</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">tok/s</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">TTFT</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Total</div>';
+  Object.entries(latest).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([key,r])=>{
+    const mp = parseModelProvider(r.provider);
     const d = new Date(r.timestamp);
     const ts = d.toISOString().slice(5,16).replace('T',' ');
     const tok = parseFloat(r.tok_s)||0;
     const cls = tok>=60?'fast':tok>=40?'':tok>=25?'warn':'slow';
     const isWknd = dayType(d)==='weekend';
     const tag = isWknd ? '<span style="background:var(--weekend);color:#fff;font-size:.65rem;padding:2px 6px;border-radius:3px;margin-left:4px">Weekend</span>' : '<span style="background:var(--weekday);color:#000;font-size:.65rem;padding:2px 6px;border-radius:3px;margin-left:4px">Weekday</span>';
-    latestHtml += `<div>${mk}${tag}</div><div>${ts}</div><div class="${cls}">${tok.toFixed(1)}</div><div>${parseFloat(r.ttft_ms).toFixed(0)}ms</div><div>${(parseFloat(r.total_ms)/1000).toFixed(1)}s</div>`;
+    latestHtml += `<div>${mp.model} @ ${mp.provider}${tag}</div><div>${ts}</div><div class="${cls}">${tok.toFixed(1)}</div><div>${parseFloat(r.ttft_ms).toFixed(0)}ms</div><div>${(parseFloat(r.total_ms)/1000).toFixed(1)}s</div>`;
   });
   latestHtml += '</div>';
   document.getElementById('latest').innerHTML = latestHtml;
@@ -204,12 +253,12 @@ function render(rows){
 
   // Warnings
   let warnHtml = '';
-  Object.entries(models).forEach(([mk,data])=>{
+  Object.entries(models).forEach(([key,data])=>{
     const vals = data.all[bucket];
     if(vals && vals.length){
       const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
-      if(avg<25) warnHtml += `<div style="color:var(--red);margin-bottom:4px">⚠️ ${mk}: avg ${avg.toFixed(1)} tok/s in ${bucket} — critically slow</div>`;
-      else if(avg<40) warnHtml += `<div style="color:var(--yellow);margin-bottom:4px">⚠️ ${mk}: avg ${avg.toFixed(1)} tok/s in ${bucket} — below ideal</div>`;
+      if(avg<25) warnHtml += `<div style="color:var(--red);margin-bottom:4px">⚠️ ${data.model} @ ${data.provider}: avg ${avg.toFixed(1)} tok/s in ${bucket} — critically slow</div>`;
+      else if(avg<40) warnHtml += `<div style="color:var(--yellow);margin-bottom:4px">⚠️ ${data.model} @ ${data.provider}: avg ${avg.toFixed(1)} tok/s in ${bucket} — below ideal</div>`;
     }
   });
   document.getElementById('warnings').innerHTML = warnHtml || '<div style="color:var(--green)">All models averaging ≥40 tok/s in current window.</div>';
