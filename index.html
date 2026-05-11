@@ -47,7 +47,7 @@
 </div>
 
 <div class="card">
-  <h2>Latest Run Snapshot</h2>
+  <h2>Latest Run Snapshot <span id="latest-timestamp" style="font-weight:400;font-size:.75rem;color:var(--muted);margin-left:8px">(loading...)</span></h2>
   <div id="latest"></div>
 </div>
 
@@ -247,6 +247,16 @@ function render(rows){
   });
   latestHtml += '</div>';
   document.getElementById('latest').innerHTML = latestHtml;
+
+  // Show overall latest run timestamp
+  const latestTs = Object.values(latest).reduce((max, r) => {
+    const d = new Date(r.timestamp);
+    return d > max ? d : max;
+  }, new Date(0));
+  if (latestTs.getTime() > 0) {
+    document.getElementById('latest-timestamp').textContent =
+      `(last run: ${latestTs.toISOString().slice(0,16).replace('T',' ')} UTC)`;
+  }
 
   renderTable('table-weekday', models, 'weekday');
   renderTable('table-weekend', models, 'weekend');
