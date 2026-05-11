@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Provider Speed Dashboard — Cron Data Only</title>
+<title>Provider Speed Dashboard — v3</title>
 <style>
-  :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--weekend:#a371f7;--weekday:#79c0ff;}
+  :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--purple:#a371f7;--cyan:#39c5cf;--weekend:#a371f7;--weekday:#79c0ff;}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;padding:16px;max-width:1000px;margin:0 auto}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;padding:16px;max-width:1100px;margin:0 auto}
   h1{font-size:1.3rem;margin-bottom:4px}
   .subtitle{color:var(--muted);font-size:.8rem;margin-bottom:16px}
   .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px}
@@ -17,12 +17,10 @@
   .provider-name{font-size:1.1rem;font-weight:600}
   .stat-row{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
   .stat-row span{color:var(--text)}
-  .weekend-tag{background:var(--weekend);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:4px;margin-left:6px}
-  .weekday-tag{background:var(--weekday);color:#000;font-size:.7rem;padding:2px 8px;border-radius:4px;margin-left:6px}
-  table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
+  table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:8px}
   th,td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--border)}
   th:first-child,td:first-child{text-align:left}
-  th{color:var(--muted);font-weight:500;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
+  th{color:var(--muted);font-weight:500;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em}
   .fast{color:var(--green);font-weight:600}
   .slow{color:var(--red)}
   .warn{color:var(--yellow)}
@@ -33,16 +31,18 @@
   .table-label.weekday{background:rgba(121,192,255,.15);color:var(--weekday)}
   .table-label.weekend{background:rgba(163,113,247,.15);color:var(--weekend)}
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .model-tag{background:var(--purple);color:#fff;font-size:.65rem;padding:2px 6px;border-radius:3px;margin-left:4px;white-space:nowrap}
+  .provider-group{font-weight:600;color:var(--blue)}
   @media(max-width:700px){.two-col{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <h1>Provider Speed Dashboard</h1>
 <div class="subtitle" id="subtitle">Loading...</div>
-<div class="note">📅 Cron-only data (May 8, 2026 onwards) · All times UTC · Weekend = Sat/Sun UTC</div>
+<div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3 (9 models)</div>
 
 <div class="card">
-  <h2>Current Recommendation (All Days)</h2>
+  <h2>🏆 Fastest Models Right Now</h2>
   <div id="recommend-all">Loading...</div>
 </div>
 
@@ -52,19 +52,19 @@
 </div>
 
 <div class="card">
-  <h2>Time-of-Day Breakdown by Day Type</h2>
+  <h2>Time-of-Day Breakdown</h2>
   <div class="two-col">
     <div class="table-section">
-      <div class="table-label weekday">📅 WEEKDAYS (Mon–Fri)</div>
+      <div class="table-label weekday">📅 WEEKDAYS</div>
       <table id="table-weekday">
-        <thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
+        <thead><tr><th>Model</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
     <div class="table-section">
-      <div class="table-label weekend">🎉 WEEKENDS (Sat–Sun)</div>
+      <div class="table-label weekend">🎉 WEEKENDS</div>
       <table id="table-weekend">
-        <thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
+        <thead><tr><th>Model</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -72,19 +72,11 @@
 </div>
 
 <div class="card">
-  <h2>All-Days Summary (for reference)</h2>
-  <table id="table-all">
-    <thead><tr><th>Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
-    <tbody></tbody>
-  </table>
-</div>
-
-<div class="card">
   <h2>Warnings</h2>
   <div id="warnings">Loading...</div>
 </div>
 
-<div class="refresh">Auto-refreshes every 5 min · Cron data only (May 8+) · UTC timestamps · Source: thaneclaw/provider-speed-dashboard</div>
+<div class="refresh">v3 · 9 models · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
 
 <script>
 const CSV_URL = 'https://raw.githubusercontent.com/thaneclaw/provider-speed-dashboard/main/provider-speed.log';
@@ -114,61 +106,61 @@ function dayType(d){
 }
 
 function buildStats(rows){
-  const providers = {};
+  const models = {};
   const latest = {};
   rows.forEach(r=>{
     const d = new Date(r.timestamp);
-    const p = r.provider;
+    // Group key: provider:model string
+    const mk = r.provider; // e.g. "Ollama:ds-pro"
     const tok = parseFloat(r.tok_s)||0;
     const dt = dayType(d);
-    if(!providers[p]) providers[p] = {all:{night:[],morning:[],afternoon:[],evening:[]},weekday:{night:[],morning:[],afternoon:[],evening:[]},weekend:{night:[],morning:[],afternoon:[],evening:[]}};
+    if(!models[mk]) models[mk] = {all:{night:[],morning:[],afternoon:[],evening:[]},weekday:{night:[],morning:[],afternoon:[],evening:[]},weekend:{night:[],morning:[],afternoon:[],evening:[]}};
     const b = timeBucket(d.getUTCHours());
-    providers[p].all[b].push(tok);
-    providers[p][dt][b].push(tok);
-    if(!latest[p] || d > new Date(latest[p].timestamp)) latest[p] = r;
+    models[mk].all[b].push(tok);
+    models[mk][dt][b].push(tok);
+    if(!latest[mk] || d > new Date(latest[mk].timestamp)) latest[mk] = r;
   });
-  return {providers, latest};
+  return {models, latest};
 }
 
-function renderRecommend(containerId, provData, bucket){
+function renderRecommend(containerId, modelData, bucket){
   let scores = [];
-  Object.entries(provData).forEach(([p, data])=>{
+  Object.entries(modelData).forEach(([mk, data])=>{
     const vals = data.all[bucket];
-    if(vals.length){
+    if(vals && vals.length){
       const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
-      scores.push({p,avg,n:vals.length,min:Math.min(...vals),max:Math.max(...vals)});
+      scores.push({mk,avg,n:vals.length,min:Math.min(...vals),max:Math.max(...vals)});
     }
   });
   scores.sort((a,b)=>b.avg-a.avg);
   let html = '';
   if(scores.length){
-    const best = scores[0];
-    html += `<div class="recommend"><span class="badge">🥇</span><div><div class="provider-name">${best.p}</div>`;
-    html += `<div class="stat-row">avg <span>${best.avg.toFixed(1)} tok/s</span> · range <span>${best.min.toFixed(1)}–${best.max.toFixed(1)}</span> · n=<span>${best.n}</span></div></div></div>`;
-    if(scores[1]){
-      const d = best.avg-scores[1].avg;
-      html += `<div style="margin-left:46px;color:var(--muted);font-size:.85rem">🥈 Runner-up: ${scores[1].p} @ ${scores[1].avg.toFixed(1)} tok/s (diff: ${d>=0?'+':''}${d.toFixed(1)})</div>`;
-    }
+    const top3 = scores.slice(0,3);
+    top3.forEach((s,i)=>{
+      const emoji = i===0?'🥇':i===1?'🥈':'🥉';
+      html += `<div class="recommend"><span class="badge">${emoji}</span><div><div class="provider-name">${s.mk}</div>`;
+      html += `<div class="stat-row">avg <span>${s.avg.toFixed(1)} tok/s</span> · range <span>${s.min.toFixed(1)}–${s.max.toFixed(1)}</span> · n=<span>${s.n}</span></div></div></div>`;
+    });
   } else {
     html = `<div style="color:var(--muted)">No data for ${bucket} yet.</div>`;
   }
   document.getElementById(containerId).innerHTML = html;
 }
 
-function renderTable(tableId, provData, dayFilter){
+function renderTable(tableId, modelData, dayFilter){
   const tbody = document.querySelector(`#${tableId} tbody`);
   tbody.innerHTML = '';
-  const entries = Object.entries(provData).sort((a,b)=>a[0].localeCompare(b[0]));
+  const entries = Object.entries(modelData).sort((a,b)=>a[0].localeCompare(b[0]));
   if(entries.length===0){
     tbody.innerHTML = `<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:20px">No ${dayFilter} data yet</td></tr>`;
     return;
   }
-  entries.forEach(([p, data])=>{
+  entries.forEach(([mk, data])=>{
     const tr = document.createElement('tr');
-    let html = `<td>${p}</td>`;
+    let html = `<td><span style="font-weight:600">${mk}</span></td>`;
     ['night','morning','afternoon','evening'].forEach(bucket=>{
       const vals = data[dayFilter][bucket];
-      if(vals.length){
+      if(vals && vals.length){
         const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
         const cls = avg>=60?'fast':avg<25?'slow':avg<40?'warn':'';
         html += `<td class="${cls}">${avg.toFixed(1)} <span style="color:var(--muted);font-size:.75rem">(${vals.length})</span></td>`;
@@ -183,45 +175,44 @@ function renderTable(tableId, provData, dayFilter){
 
 function render(rows){
   const cronRows = rows.filter(r=> new Date(r.timestamp) >= CRON_START);
-  const {providers, latest} = buildStats(cronRows);
+  const {models, latest} = buildStats(cronRows);
 
   const now = new Date();
   const bucket = timeBucket(now.getUTCHours());
   document.getElementById('subtitle').textContent =
-    `${now.toISOString().slice(0,16).replace('T',' ')} UTC · Bucket: ${bucket.toUpperCase()} · ${cronRows.length} cron runs`;
+    `${now.toISOString().slice(0,16).replace('T',' ')} UTC · Bucket: ${bucket.toUpperCase()} · ${cronRows.length} runs`;
 
-  renderRecommend('recommend-all', providers, bucket);
+  renderRecommend('recommend-all', models, bucket);
 
   // Latest runs
   let latestHtml = '<div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px 12px;font-size:.85rem">';
-  latestHtml += '<div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Provider</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Date</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">tok/s</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">TTFT</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Total</div>';
-  Object.entries(latest).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([p,r])=>{
+  latestHtml += '<div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Model</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Time</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">tok/s</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">TTFT</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Total</div>';
+  Object.entries(latest).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([mk,r])=>{
     const d = new Date(r.timestamp);
     const ts = d.toISOString().slice(5,16).replace('T',' ');
     const tok = parseFloat(r.tok_s)||0;
     const cls = tok>=60?'fast':tok>=40?'':tok>=25?'warn':'slow';
     const isWknd = dayType(d)==='weekend';
-    const tag = isWknd ? '<span class="weekend-tag">Weekend</span>' : '<span class="weekday-tag">Weekday</span>';
-    latestHtml += `<div>${p}${tag}</div><div>${ts}</div><div class="${cls}">${tok.toFixed(1)}</div><div>${parseFloat(r.ttft_ms).toFixed(0)}ms</div><div>${(parseFloat(r.total_ms)/1000).toFixed(1)}s</div>`;
+    const tag = isWknd ? '<span style="background:var(--weekend);color:#fff;font-size:.65rem;padding:2px 6px;border-radius:3px;margin-left:4px">Weekend</span>' : '<span style="background:var(--weekday);color:#000;font-size:.65rem;padding:2px 6px;border-radius:3px;margin-left:4px">Weekday</span>';
+    latestHtml += `<div>${mk}${tag}</div><div>${ts}</div><div class="${cls}">${tok.toFixed(1)}</div><div>${parseFloat(r.ttft_ms).toFixed(0)}ms</div><div>${(parseFloat(r.total_ms)/1000).toFixed(1)}s</div>`;
   });
   latestHtml += '</div>';
   document.getElementById('latest').innerHTML = latestHtml;
 
-  renderTable('table-weekday', providers, 'weekday');
-  renderTable('table-weekend', providers, 'weekend');
-  renderTable('table-all', providers, 'all');
+  renderTable('table-weekday', models, 'weekday');
+  renderTable('table-weekend', models, 'weekend');
 
   // Warnings
   let warnHtml = '';
-  Object.entries(providers).forEach(([p,data])=>{
+  Object.entries(models).forEach(([mk,data])=>{
     const vals = data.all[bucket];
-    if(vals.length){
+    if(vals && vals.length){
       const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
-      if(avg<25) warnHtml += `<div style="color:var(--red);margin-bottom:4px">⚠️ ${p}: avg ${avg.toFixed(1)} tok/s in ${bucket} — critically slow</div>`;
-      else if(avg<40) warnHtml += `<div style="color:var(--yellow);margin-bottom:4px">⚠️ ${p}: avg ${avg.toFixed(1)} tok/s in ${bucket} — below ideal</div>`;
+      if(avg<25) warnHtml += `<div style="color:var(--red);margin-bottom:4px">⚠️ ${mk}: avg ${avg.toFixed(1)} tok/s in ${bucket} — critically slow</div>`;
+      else if(avg<40) warnHtml += `<div style="color:var(--yellow);margin-bottom:4px">⚠️ ${mk}: avg ${avg.toFixed(1)} tok/s in ${bucket} — below ideal</div>`;
     }
   });
-  document.getElementById('warnings').innerHTML = warnHtml || '<div style="color:var(--green)">All providers performing above 40 tok/s in current window.</div>';
+  document.getElementById('warnings').innerHTML = warnHtml || '<div style="color:var(--green)">All models averaging ≥40 tok/s in current window.</div>';
 }
 
 function load(){
