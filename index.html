@@ -118,7 +118,7 @@ function parseModelProvider(label){
   }
   // Legacy provider-only labels (pre-v3)
   const providerMap = {
-    'Canopy Wave': 'kimi', 'Ollama Cloud': 'kimi', 'OpenCode Go': 'kimi',
+    'Canopy Wave': 'kimi', 'Ollama Cloud': 'kimi', 'OpenCode Go': 'kimi', 'Neuralwatt': 'kimi',
     'Canopy': 'kimi', 'Ollama': 'kimi'
   };
   for(const [prov, model] of Object.entries(providerMap)){
@@ -151,8 +151,8 @@ function groupByModel(modelData){
     if(!grouped[entry.model]) grouped[entry.model] = [];
     grouped[entry.model].push(entry);
   });
-  // Sort models: kimi first, then DS V4 Pro, DS V4 Flash, GLM 5.1, Qwen 3.5
-  const modelOrder = ['kimi', 'DS V4 Pro', 'DS V4 Flash', 'GLM 5.1', 'Qwen 3.5'];
+  // Sort models: kimi first, then DS V4 Pro, DS V4 Flash, GLM 5.1, Qwen 3.5, Neuralwatt
+  const modelOrder = ['kimi', 'DS V4 Pro', 'DS V4 Flash', 'GLM 5.1', 'Qwen 3.5', 'Neuralwatt'];
   const ordered = {};
   modelOrder.forEach(m=>{ if(grouped[m]) ordered[m] = grouped[m]; });
   Object.keys(grouped).sort().forEach(m=>{ if(!ordered[m]) ordered[m] = grouped[m]; });
