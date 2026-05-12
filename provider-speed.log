@@ -266,3 +266,13 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-05-12T00:39:16Z,GLM 5.1 — OpenCode Go,glm-5.1,1682,8061,621,77.0,morning
 2026-05-12T00:39:27Z,kimi — Canopy Wave,moonshotai/kimi-k2.6,1466,11042,739,66.9,morning
 2026-05-12T00:39:37Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,660,10083,598,59.3,morning
+2026-05-12T01:40:28Z,kimi — Ollama Cloud,kimi-k2.6,1163,10314,676,65.5,morning
+2026-05-12T01:40:37Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,632,8865,738,83.3,morning
+2026-05-12T01:40:51Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,4162,14198,693,48.8,morning
+2026-05-12T01:41:23Z,GLM 5.1 — Ollama Cloud,glm-5.1,919,32071,613,19.1,morning
+2026-05-12T01:41:39Z,kimi — OpenCode Go,kimi-k2.6,2010,15783,673,42.6,morning
+2026-05-12T01:41:58Z,DS V4 Pro — OpenCode Go,deepseek-v4-pro,1434,19524,669,34.3,morning
+2026-05-12T01:42:08Z,DS V4 Flash — OpenCode Go,deepseek-v4-flash,1141,9729,630,64.8,morning
+2026-05-12T01:42:29Z,GLM 5.1 — OpenCode Go,glm-5.1,1302,20943,615,29.4,morning
+2026-05-12T01:42:40Z,kimi — Canopy Wave,moonshotai/kimi-k2.6,1872,10910,725,66.5,morning
+2026-05-12T01:42:55Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,7550,15612,595,38.1,morning
