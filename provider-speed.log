@@ -790,3 +790,10 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-05-14T15:56:18Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,1208,29428,2044,69.5,morning
 2026-05-14T15:56:27Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,2215,9559,686,71.8,morning
 2026-05-14T15:56:35Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,650,7616,623,81.8,morning
+2026-05-14T16:57:15Z,kimi — Ollama Cloud,kimi-k2.6,1258,10369,659,63.6,morning
+2026-05-14T16:57:29Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,598,13523,696,51.5,morning
+2026-05-14T16:57:48Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,982,19725,676,34.3,morning
+2026-05-14T16:58:01Z,GLM 5.1 — Ollama Cloud,glm-5.1,870,12179,617,50.7,morning
+2026-05-14T17:01:06Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,40977,185419,629,3.4,morning
+2026-05-14T17:01:12Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,699,6073,692,114.0,morning
+2026-05-14T17:01:23Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,1271,10937,627,57.3,morning
