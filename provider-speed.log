@@ -1754,3 +1754,201 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-05-21T12:01:51Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,3443,36136,591,16.4,afternoon
 2026-05-21T12:01:56Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,1119,5107,698,136.7,afternoon
 2026-05-21T12:02:01Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,732,4811,627,130.3,afternoon
+2026-05-21T13:01:05Z,kimi — Ollama Cloud,kimi-k2.6,1853,10644,666,62.6,afternoon
+2026-05-21T13:01:16Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,830,10488,729,69.5,afternoon
+2026-05-21T13:01:23Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,928,7167,707,98.6,afternoon
+2026-05-21T13:01:28Z,GLM 5.1 — Ollama Cloud,glm-5.1,889,4436,625,140.9,afternoon
+2026-05-21T13:01:35Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,525,7570,610,80.6,afternoon
+2026-05-21T13:01:40Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,863,5046,712,141.1,afternoon
+2026-05-21T13:01:45Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,1143,5156,617,119.7,afternoon
+2026-05-21T14:00:34Z,kimi — Ollama Cloud,kimi-k2.6,1128,21743,709,32.6,afternoon
+2026-05-21T14:00:44Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,666,9936,758,76.3,afternoon
+2026-05-21T14:01:00Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,694,16051,695,43.3,afternoon
+2026-05-21T14:01:22Z,GLM 5.1 — Ollama Cloud,glm-5.1,1382,22280,616,27.6,afternoon
+2026-05-21T14:02:03Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,11220,40107,590,14.7,afternoon
+2026-05-21T14:02:08Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,557,4958,711,143.4,afternoon
+2026-05-21T14:02:12Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,599,4377,601,137.3,afternoon
+2026-05-21T15:00:20Z,kimi — Ollama Cloud,kimi-k2.6,1487,16829,713,42.4,afternoon
+2026-05-21T15:00:29Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,758,9698,744,76.7,afternoon
+2026-05-21T15:00:41Z,GLM 5.1 — Ollama Cloud,glm-5.1,3811,9248,630,68.1,afternoon
+2026-05-21T15:01:08Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,1937,27504,1873,68.1,afternoon
+2026-05-21T15:01:12Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,608,3345,653,195.2,afternoon
+2026-05-21T15:01:18Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,1394,6540,601,91.9,afternoon
+2026-05-21T16:00:42Z,kimi — Ollama Cloud,kimi-k2.6,1271,18201,727,39.9,afternoon
+2026-05-21T16:00:55Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,911,12896,705,54.7,afternoon
+2026-05-21T16:02:38Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,19200,102991,653,6.3,afternoon
+2026-05-21T16:02:53Z,GLM 5.1 — Ollama Cloud,glm-5.1,3178,14299,622,43.5,afternoon
+2026-05-21T16:03:42Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,504,49794,633,12.7,afternoon
+2026-05-21T16:03:45Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,456,3001,658,219.2,afternoon
+2026-05-21T16:03:53Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,1547,7230,632,87.4,afternoon
+2026-05-21T17:01:07Z,kimi — Ollama Cloud,kimi-k2.6,11946,30994,676,21.8,afternoon
+2026-05-21T17:01:35Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,10700,27556,723,26.2,afternoon
+2026-05-21T17:01:48Z,GLM 5.1 — Ollama Cloud,glm-5.1,1074,10885,630,57.9,afternoon
+2026-05-21T17:02:20Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,1330,32260,2218,68.8,afternoon
+2026-05-21T17:02:24Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,876,4322,721,166.8,afternoon
+2026-05-21T17:02:31Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,1184,6459,587,90.9,afternoon
+2026-05-21T18:01:09Z,kimi — Ollama Cloud,kimi-k2.6,1927,12316,708,57.5,evening
+2026-05-21T18:01:25Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,717,15815,694,43.9,evening
+2026-05-21T18:01:38Z,GLM 5.1 — Ollama Cloud,glm-5.1,1306,11123,622,55.9,evening
+2026-05-21T18:03:56Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,26585,137223,607,4.4,evening
+2026-05-21T18:04:00Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,670,4073,652,160.1,evening
+2026-05-21T18:04:04Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,778,4258,601,141.2,evening
+2026-05-21T19:00:36Z,kimi — Ollama Cloud,kimi-k2.6,1616,19690,726,36.9,evening
+2026-05-21T19:00:53Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,1284,16884,738,43.7,evening
+2026-05-21T19:01:02Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,656,8228,653,79.4,evening
+2026-05-21T19:01:27Z,GLM 5.1 — Ollama Cloud,glm-5.1,15554,25609,630,24.6,evening
+2026-05-21T19:01:35Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,427,7470,583,78.0,evening
+2026-05-21T19:01:38Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,498,3086,732,237.2,evening
+2026-05-21T19:01:43Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,677,5591,609,108.9,evening
+2026-05-21T21:01:01Z,kimi — Ollama Cloud,kimi-k2.6,948,8206,702,85.6,evening
+2026-05-21T21:01:11Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,646,9926,722,72.7,evening
+2026-05-21T21:01:54Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,4314,43513,700,16.1,evening
+2026-05-21T21:02:01Z,GLM 5.1 — Ollama Cloud,glm-5.1,874,6126,605,98.8,evening
+2026-05-21T21:02:53Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,8043,51973,592,11.4,evening
+2026-05-21T21:02:56Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,553,3006,714,237.5,evening
+2026-05-21T21:03:01Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,707,5704,630,110.4,evening
+2026-05-21T22:00:15Z,kimi — Ollama Cloud,kimi-k2.6,2606,8892,653,73.4,evening
+2026-05-21T22:00:23Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,821,7585,614,81.0,evening
+2026-05-21T22:00:48Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,5453,25697,712,27.7,evening
+2026-05-21T22:00:53Z,GLM 5.1 — Ollama Cloud,glm-5.1,1186,4436,625,140.9,evening
+2026-05-21T22:01:05Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,5473,12090,609,50.4,evening
+2026-05-21T22:01:08Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,510,3209,724,225.6,evening
+2026-05-21T22:01:12Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,1029,4241,629,148.3,evening
+2026-05-21T23:01:06Z,kimi — Ollama Cloud,kimi-k2.6,1009,7440,673,90.5,evening
+2026-05-21T23:01:15Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,792,9647,709,73.5,evening
+2026-05-21T23:01:22Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,2674,6979,697,99.9,evening
+2026-05-21T23:01:32Z,GLM 5.1 — Ollama Cloud,glm-5.1,3197,9393,645,68.7,evening
+2026-05-21T23:01:38Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,435,5765,594,103.0,evening
+2026-05-21T23:01:41Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,499,3015,680,225.5,evening
+2026-05-21T23:01:46Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,682,4931,602,122.1,evening
+2026-05-22T00:00:24Z,kimi — Ollama Cloud,kimi-k2.6,995,6620,655,98.9,night
+2026-05-22T00:00:35Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,986,10384,717,69.0,night
+2026-05-22T00:01:31Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,47777,56970,705,12.4,night
+2026-05-22T00:01:39Z,GLM 5.1 — Ollama Cloud,glm-5.1,1033,7440,622,83.6,night
+2026-05-22T00:01:49Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,2524,10198,607,59.5,night
+2026-05-22T00:01:53Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,480,3668,725,197.7,night
+2026-05-22T00:02:01Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,791,7840,611,77.9,night
+2026-05-22T01:00:45Z,kimi — Ollama Cloud,kimi-k2.6,1322,9482,722,76.1,night
+2026-05-22T01:00:54Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,879,8786,702,79.9,night
+2026-05-22T01:01:06Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,514,12338,694,56.2,night
+2026-05-22T01:01:15Z,GLM 5.1 — Ollama Cloud,glm-5.1,1115,8198,618,75.4,night
+2026-05-22T01:01:28Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,444,13255,587,44.3,night
+2026-05-22T01:01:31Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,570,2956,722,244.3,night
+2026-05-22T01:01:35Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,684,3726,629,168.8,night
+2026-05-22T02:00:55Z,kimi — Ollama Cloud,kimi-k2.6,1435,8852,712,80.4,night
+2026-05-22T02:01:03Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,795,7876,641,81.4,night
+2026-05-22T02:01:07Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,540,4559,678,148.7,night
+2026-05-22T02:01:13Z,GLM 5.1 — Ollama Cloud,glm-5.1,1168,5550,649,116.9,night
+2026-05-22T02:01:18Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,556,5717,609,106.5,night
+2026-05-22T02:01:27Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,503,8185,705,86.1,night
+2026-05-22T02:01:32Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,983,5525,595,107.7,night
+2026-05-22T03:01:25Z,kimi — Ollama Cloud,kimi-k2.6,895,8695,710,81.7,night
+2026-05-22T03:01:33Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,874,8785,698,79.5,night
+2026-05-22T03:01:41Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,571,7182,678,94.4,night
+2026-05-22T03:01:47Z,GLM 5.1 — Ollama Cloud,glm-5.1,1058,6583,637,96.8,night
+2026-05-22T03:03:24Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,75085,96408,608,6.3,night
+2026-05-22T03:03:27Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,466,2902,713,245.7,night
+2026-05-22T03:03:31Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,784,4733,610,128.9,night
+2026-05-22T04:00:49Z,kimi — Ollama Cloud,kimi-k2.6,10469,19843,715,36.0,night
+2026-05-22T04:01:06Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,622,17174,737,42.9,night
+2026-05-22T04:01:11Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,533,4905,709,144.5,night
+2026-05-22T04:01:21Z,GLM 5.1 — Ollama Cloud,glm-5.1,1285,9347,625,66.9,night
+2026-05-22T04:01:49Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,1155,28285,1943,68.7,night
+2026-05-22T04:01:52Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,485,3068,730,238.0,night
+2026-05-22T04:01:56Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,450,4552,623,136.9,night
+2026-05-22T05:00:55Z,kimi — Ollama Cloud,kimi-k2.6,1229,9018,734,81.4,night
+2026-05-22T05:01:06Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,705,10074,722,71.7,night
+2026-05-22T05:01:13Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,2333,7300,695,95.2,night
+2026-05-22T05:01:36Z,GLM 5.1 — Ollama Cloud,glm-5.1,1317,23432,631,26.9,night
+2026-05-22T05:01:52Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,1156,16004,583,36.4,night
+2026-05-22T05:02:00Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,1389,7176,657,91.6,night
+2026-05-22T05:02:05Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,1313,5251,610,116.2,night
+2026-05-22T06:00:45Z,kimi — Ollama Cloud,kimi-k2.6,1180,7415,722,97.4,morning
+2026-05-22T06:00:55Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,1080,9494,716,75.4,morning
+2026-05-22T06:01:03Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,550,8456,702,83.0,morning
+2026-05-22T06:01:13Z,GLM 5.1 — Ollama Cloud,glm-5.1,969,10235,619,60.5,morning
+2026-05-22T06:01:24Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,416,10626,578,54.4,morning
+2026-05-22T06:01:31Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,2143,7158,661,92.3,morning
+2026-05-22T06:01:37Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,774,5567,612,109.9,morning
+2026-05-22T07:00:28Z,kimi — Ollama Cloud,kimi-k2.6,1307,7174,697,97.2,morning
+2026-05-22T07:00:52Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,1498,24452,743,30.4,morning
+2026-05-22T07:01:01Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,648,8468,701,82.8,morning
+2026-05-22T07:01:12Z,GLM 5.1 — Ollama Cloud,glm-5.1,1516,11489,629,54.7,morning
+2026-05-22T07:01:22Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,442,10025,598,59.7,morning
+2026-05-22T07:01:26Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,599,4251,671,157.9,morning
+2026-05-22T07:01:42Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,2164,16080,610,37.9,morning
+2026-05-22T08:01:13Z,kimi — Ollama Cloud,kimi-k2.6,893,15861,723,45.6,morning
+2026-05-22T08:01:21Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,606,8065,708,87.8,morning
+2026-05-22T08:01:27Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,1148,5472,711,129.9,morning
+2026-05-22T08:01:36Z,GLM 5.1 — Ollama Cloud,glm-5.1,950,9708,616,63.5,morning
+2026-05-22T08:01:50Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,693,13624,595,43.7,morning
+2026-05-22T08:01:53Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,523,3164,750,237.0,morning
+2026-05-22T08:01:58Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,813,5322,640,120.3,morning
+2026-05-22T09:01:05Z,kimi — Ollama Cloud,kimi-k2.6,1061,19167,689,35.9,morning
+2026-05-22T09:01:13Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,700,7910,736,93.0,morning
+2026-05-22T09:02:06Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,16389,53042,708,13.3,morning
+2026-05-22T09:02:13Z,GLM 5.1 — Ollama Cloud,glm-5.1,876,6936,626,90.2,morning
+2026-05-22T09:02:22Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,2501,9580,602,62.8,morning
+2026-05-22T09:02:25Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,452,2835,714,251.9,morning
+2026-05-22T09:02:29Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,774,4340,608,140.1,morning
+2026-05-22T10:00:33Z,kimi — Ollama Cloud,kimi-k2.6,917,22576,720,31.9,morning
+2026-05-22T10:00:46Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,5575,13470,741,55.0,morning
+2026-05-22T10:00:51Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,628,4863,713,146.6,morning
+2026-05-22T10:00:55Z,GLM 5.1 — Ollama Cloud,glm-5.1,425,3638,625,171.8,morning
+2026-05-22T10:01:06Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,5819,11530,609,52.8,morning
+2026-05-22T10:01:09Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,464,2863,726,253.6,morning
+2026-05-22T10:01:17Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,777,8144,589,72.3,morning
+2026-05-22T11:00:40Z,kimi — Ollama Cloud,kimi-k2.6,1116,8022,697,86.9,morning
+2026-05-22T11:00:51Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,699,11333,734,64.8,morning
+2026-05-22T11:00:58Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,470,6741,694,103.0,morning
+2026-05-22T11:01:06Z,GLM 5.1 — Ollama Cloud,glm-5.1,1077,7983,611,76.5,morning
+2026-05-22T11:01:13Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,514,6608,603,91.3,morning
+2026-05-22T11:01:16Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,476,2886,672,232.9,morning
+2026-05-22T11:01:20Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,425,4162,629,151.1,morning
+2026-05-22T12:00:46Z,kimi — Ollama Cloud,kimi-k2.6,2944,23778,660,27.8,afternoon
+2026-05-22T12:00:55Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,672,9794,758,77.4,afternoon
+2026-05-22T12:01:13Z,GLM 5.1 — Ollama Cloud,glm-5.1,2502,15583,615,39.5,afternoon
+2026-05-22T12:01:59Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,27466,46038,590,12.8,afternoon
+2026-05-22T12:02:03Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,477,3841,713,185.6,afternoon
+2026-05-22T12:02:07Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,767,3979,610,153.3,afternoon
+2026-05-22T13:00:37Z,kimi — Ollama Cloud,kimi-k2.6,2162,13307,739,55.5,afternoon
+2026-05-22T13:00:45Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,656,7697,618,80.3,afternoon
+2026-05-22T13:03:15Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,90619,150033,699,4.7,afternoon
+2026-05-22T13:03:18Z,GLM 5.1 — Ollama Cloud,glm-5.1,395,3630,625,172.2,afternoon
+2026-05-22T13:03:39Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,462,21029,600,28.5,afternoon
+2026-05-22T13:03:43Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,527,4045,658,162.7,afternoon
+2026-05-22T13:03:48Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,779,4384,633,144.4,afternoon
+2026-05-22T14:00:50Z,kimi — Ollama Cloud,kimi-k2.6,2413,26462,708,26.8,afternoon
+2026-05-22T14:01:00Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,790,9680,713,73.7,afternoon
+2026-05-22T14:01:16Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,2612,16342,682,41.7,afternoon
+2026-05-22T14:01:30Z,GLM 5.1 — Ollama Cloud,glm-5.1,1566,14264,623,43.7,afternoon
+2026-05-22T14:01:53Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,1295,22989,1477,64.2,afternoon
+2026-05-22T14:01:56Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,451,3116,688,220.8,afternoon
+2026-05-22T14:02:01Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,547,4266,601,140.9,afternoon
+2026-05-22T15:01:36Z,kimi — Ollama Cloud,kimi-k2.6,8005,37129,669,18.0,afternoon
+2026-05-22T15:01:52Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,3103,16325,756,46.3,afternoon
+2026-05-22T15:02:10Z,GLM 5.1 — Ollama Cloud,glm-5.1,975,15433,622,40.3,afternoon
+2026-05-22T15:02:34Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,7118,23997,616,25.7,afternoon
+2026-05-22T15:02:37Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,599,3086,725,234.9,afternoon
+2026-05-22T15:02:42Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,873,4904,610,124.4,afternoon
+2026-05-22T16:00:28Z,kimi — Ollama Cloud,kimi-k2.6,2680,10069,673,66.8,afternoon
+2026-05-22T16:00:40Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,707,11426,747,65.4,afternoon
+2026-05-22T16:00:54Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,4677,14586,705,48.3,afternoon
+2026-05-22T16:01:06Z,GLM 5.1 — Ollama Cloud,glm-5.1,1440,11480,613,53.4,afternoon
+2026-05-22T16:01:13Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,412,6641,599,90.2,afternoon
+2026-05-22T16:01:16Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,459,2963,722,243.6,afternoon
+2026-05-22T16:01:20Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,987,4396,632,143.8,afternoon
+2026-05-22T17:00:18Z,kimi — Ollama Cloud,kimi-k2.6,2778,11644,690,59.3,afternoon
+2026-05-22T17:00:27Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,726,9095,712,78.3,afternoon
+2026-05-22T17:00:40Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,2381,13326,699,52.5,afternoon
+2026-05-22T17:00:53Z,GLM 5.1 — Ollama Cloud,glm-5.1,3535,12597,621,49.3,afternoon
+2026-05-22T17:01:22Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,1195,28640,1875,65.5,afternoon
+2026-05-22T17:01:26Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,502,4445,722,162.4,afternoon
+2026-05-22T17:01:30Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,753,4299,608,141.4,afternoon
+2026-05-22T18:00:21Z,kimi — Ollama Cloud,kimi-k2.6,1129,7968,718,90.1,evening
+2026-05-22T18:00:30Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,762,9376,693,73.9,evening
+2026-05-22T18:00:41Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,659,11263,702,62.3,evening
+2026-05-22T18:00:46Z,GLM 5.1 — Ollama Cloud,glm-5.1,579,4816,633,131.4,evening
+2026-05-22T18:01:21Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,1243,34330,1910,55.6,evening
+2026-05-22T18:01:26Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,1067,5150,694,134.8,evening
+2026-05-22T18:01:40Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,1983,14186,614,43.3,evening
