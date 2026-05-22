@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Provider Speed Dashboard — Model-First v3.6</title>
+<title>Provider Speed Dashboard — Model-First v3.7</title>
 <style>
   :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--purple:#a371f7;--cyan:#39c5cf;--weekend:#a371f7;--weekday:#79c0ff;--recent:#39c5cf;--alltime:#a371f7;}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -54,7 +54,7 @@
 <body>
 <h1>Provider Speed Dashboard</h1>
 <div class="subtitle" id="subtitle">Loading...</div>
-<div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.6</div>
+<div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.7</div>
 
 <div class="card">
   <h2>🏆 Fastest Models Right Now</h2>
@@ -67,12 +67,12 @@
 </div>
 
 <div class="card">
-  <h2>Time-of-Day Breakdown — By Model</h2>
+  <h2>Last 7 Days — By Day Type <span style="font-weight:400;font-size:.75rem;color:var(--muted);margin-left:8px">(active providers only)</span></h2>
   <div class="two-col">
     <div class="table-section">
       <div class="table-label weekday">📅 WEEKDAYS</div>
       <div class="table-wrap">
-        <table id="table-weekday">
+        <table id="table-recent-weekday">
           <thead><tr><th>Model / Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
           <tbody></tbody>
         </table>
@@ -81,7 +81,7 @@
     <div class="table-section">
       <div class="table-label weekend">🎉 WEEKENDS</div>
       <div class="table-wrap">
-        <table id="table-weekend">
+        <table id="table-recent-weekend">
           <thead><tr><th>Model / Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
           <tbody></tbody>
         </table>
@@ -91,21 +91,21 @@
 </div>
 
 <div class="card">
-  <h2>Provider Comparison</h2>
+  <h2>All Time — By Day Type</h2>
   <div class="two-col">
     <div class="table-section">
-      <div class="table-label recent">📅 LAST 7 DAYS (Active Only)</div>
+      <div class="table-label weekday">📅 WEEKDAYS</div>
       <div class="table-wrap">
-        <table id="table-recent">
+        <table id="table-all-weekday">
           <thead><tr><th>Model / Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
     </div>
     <div class="table-section">
-      <div class="table-label alltime">📊 ALL TIME</div>
+      <div class="table-label weekend">🎉 WEEKENDS</div>
       <div class="table-wrap">
-        <table id="table-alltime">
+        <table id="table-all-weekend">
           <thead><tr><th>Model / Provider</th><th>Night<br>00-06</th><th>Morning<br>06-12</th><th>Afternoon<br>12-18</th><th>Evening<br>18-24</th></tr></thead>
           <tbody></tbody>
         </table>
@@ -119,7 +119,7 @@
   <div id="warnings">Loading...</div>
 </div>
 
-<div class="refresh">v3.6 · Model-first · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
+<div class="refresh">v3.7 · Model-first · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
 
 <script>
 const CSV_URL = 'https://raw.githubusercontent.com/thaneclaw/provider-speed-dashboard/main/provider-speed.log';
@@ -177,9 +177,12 @@ function buildStats(rows){
     const groupKey = mp.model + ' — ' + mp.provider;
     const tok = parseFloat(r.tok_s)||0;
     const dt = dayType(d);
-    if(!models[groupKey]) models[groupKey] = {model: mp.model, provider: mp.provider, all:{night:[],morning:[],afternoon:[],evening:[]},weekday:{night:[],morning:[],afternoon:[],evening:[]},weekend:{night:[],morning:[],afternoon:[],evening:[]}};
+    if(!models[groupKey]) models[groupKey] = {
+      model: mp.model, provider: mp.provider,
+      weekday:{night:[],morning:[],afternoon:[],evening:[]},
+      weekend:{night:[],morning:[],afternoon:[],evening:[]}
+    };
     const b = timeBucket(d.getUTCHours());
-    models[groupKey].all[b].push(tok);
     models[groupKey][dt][b].push(tok);
     if(!latest[groupKey] || d > new Date(latest[groupKey].timestamp)) latest[groupKey] = r;
   });
@@ -227,7 +230,7 @@ function renderRecommend(containerId, latestData){
   document.getElementById(containerId).innerHTML = html;
 }
 
-function renderTableDay(tableId, modelData, dayFilter){
+function renderTable(tableId, modelData, dayFilter){
   const tbody = document.querySelector(`#${tableId} tbody`);
   tbody.innerHTML = '';
   const grouped = groupByModel(modelData);
@@ -259,38 +262,6 @@ function renderTableDay(tableId, modelData, dayFilter){
   });
 }
 
-function renderTableAll(tableId, modelData){
-  const tbody = document.querySelector(`#${tableId} tbody`);
-  tbody.innerHTML = '';
-  const grouped = groupByModel(modelData);
-  const groups = Object.entries(grouped);
-  if(groups.length===0){
-    tbody.innerHTML = `<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:20px">No data yet</td></tr>`;
-    return;
-  }
-  groups.forEach(([modelName, providers])=>{
-    const headerTr = document.createElement('tr');
-    headerTr.innerHTML = `<td colspan="5" class="model-header">${modelName}</td>`;
-    tbody.appendChild(headerTr);
-    providers.forEach(p=>{
-      const tr = document.createElement('tr');
-      let html = `<td class="provider-indent">— ${p.provider}</td>`;
-      ['night','morning','afternoon','evening'].forEach(bucket=>{
-        const vals = p.all[bucket];
-        if(vals && vals.length){
-          const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
-          const cls = avg>=60?'fast':avg<25?'slow':avg<40?'warn':'';
-          html += `<td class="${cls}">${avg.toFixed(1)} <span style="color:var(--muted);font-size:.75rem">(${vals.length})</span></td>`;
-        } else {
-          html += `<td style="color:var(--muted)">—</td>`;
-        }
-      });
-      tr.innerHTML = html;
-      tbody.appendChild(tr);
-    });
-  });
-}
-
 function render(rows){
   const cronRows = rows.filter(r=> new Date(r.timestamp) >= CRON_START);
   const now = new Date();
@@ -298,7 +269,7 @@ function render(rows){
   document.getElementById('subtitle').textContent =
     `${now.toISOString().slice(0,16).replace('T',' ')} UTC · Bucket: ${bucket.toUpperCase()} · ${cronRows.length} runs`;
 
-  // All-time stats (includes weekday/weekend breakdown)
+  // All-time stats
   const {models: allModels, latest} = buildStats(cronRows);
 
   // Last 7 days — active providers only
@@ -342,13 +313,13 @@ function render(rows){
       `(last run: ${latestTs.toISOString().slice(0,16).replace('T',' ')} UTC)`;
   }
 
-  // Original weekday/weekend tables
-  renderTableDay('table-weekday', allModels, 'weekday');
-  renderTableDay('table-weekend', allModels, 'weekend');
+  // Last 7 days — weekday / weekend (active only)
+  renderTable('table-recent-weekday', recentModels, 'weekday');
+  renderTable('table-recent-weekend', recentModels, 'weekend');
 
-  // New comparison tables
-  renderTableAll('table-recent', recentModels);
-  renderTableAll('table-alltime', allModels);
+  // All time — weekday / weekend (everything)
+  renderTable('table-all-weekday', allModels, 'weekday');
+  renderTable('table-all-weekend', allModels, 'weekend');
 
   // Warnings — active providers only
   let warnHtml = '';
