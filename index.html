@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Provider Speed Dashboard — Model-First v3.9</title>
+  <title>Provider Speed Dashboard — Model-First v3.10</title>
 <style>
   :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--purple:#a371f7;--cyan:#39c5cf;--weekend:#a371f7;--weekday:#79c0ff;--recent:#39c5cf;--alltime:#a371f7;}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -36,7 +36,16 @@
   .model-header{font-weight:700;color:var(--blue);font-size:.9rem;background:rgba(88,166,255,.08);padding:6px 6px;border-radius:4px;margin-top:4px}
   .provider-indent{padding-left:16px;color:var(--text)}
   .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .latest-grid{display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px 12px;font-size:.85rem}
+  .latest-list{font-size:.85rem}
+  .latest-header{display:flex;justify-content:space-between;color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border);padding-bottom:6px;margin-bottom:4px}
+  .latest-header .h-metric{display:flex;gap:16px}
+  .latest-row{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding:10px 0;gap:12px}
+  .latest-info{flex:1;min-width:0}
+  .latest-model{font-weight:500}
+  .latest-meta{color:var(--muted);font-size:.75rem;margin-top:3px}
+  .latest-metrics{display:flex;gap:16px;align-items:center;white-space:nowrap}
+  .latest-metric{text-align:right;min-width:3.5ch}
+  .desktop-only{display:none}
   @media(max-width:700px){
     .two-col{grid-template-columns:1fr}
     body{padding:10px}
@@ -44,18 +53,19 @@
     table{font-size:.75rem}
     th,td{padding:6px 4px}
     .provider-indent{padding-left:8px}
-    .latest-grid{grid-template-columns:1fr auto auto;gap:6px 8px;font-size:.78rem}
-    .latest-grid > div:nth-child(5n+4),
-    .latest-grid > div:nth-child(5n+5){display:none}
-    .latest-grid > div:nth-child(5n+1){grid-column:1/4;padding-bottom:4px;border-bottom:1px solid var(--border);margin-bottom:4px}
+    .latest-row{padding:8px 0}
+    .latest-metrics{gap:12px}
     .stat-row{gap:8px;font-size:.82rem}
+  }
+  @media(min-width:701px){
+    .desktop-only{display:inline}
   }
 </style>
 </head>
 <body>
 <h1>Provider Speed Dashboard</h1>
 <div class="subtitle" id="subtitle">Loading...</div>
-  <div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.9</div>
+  <div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.10</div>
 
 <div class="card">
   <h2>🏆 Fastest Models Right Now</h2>
@@ -120,7 +130,7 @@
   <div id="warnings">Loading...</div>
 </div>
 
-<div class="refresh">v3.9 · Model-first · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
+<div class="refresh">v3.10 · Model-first · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
 
 <script>
 const CSV_URL = 'https://raw.githubusercontent.com/thaneclaw/provider-speed-dashboard/main/provider-speed.log';
@@ -251,8 +261,8 @@ function renderTable(tableId, modelData, dayFilter){
         const vals = p[dayFilter][bucket];
         if(vals && vals.length){
           const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
-          const cls = avg>=50?'fast':avg<25?'slow':avg<40?'warn':'';
-          html += `<td><span class="${cls}">${avg.toFixed(1)}</span> <span class="${cls}" style="font-size:.75rem;opacity:.7">(${vals.length})</span></td>`;
+          const cls = avg>=60?'fast':avg<25?'slow':avg<40?'warn':'';
+          html += `<td style="text-align:center"><div class="${cls}">${avg.toFixed(1)}</div><div style="color:var(--muted);font-size:.75rem">(${vals.length})</div></td>`;
         } else {
           html += `<td style="color:var(--muted)">—</td>`;
         }
@@ -286,8 +296,8 @@ function render(rows){
   renderRecommend('recommend-all', latest);
 
   // Latest runs — active providers only
-  let latestHtml = '<div class="latest-grid">';
-  latestHtml += '<div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Model @ Provider</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Time</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">tok/s</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">TTFT</div><div style="color:var(--muted);font-size:.75rem;border-bottom:2px solid var(--border)">Total</div>';
+  let latestHtml = '<div class="latest-list">';
+  latestHtml += '<div class="latest-header"><span>Model @ Provider</span><span class="h-metric"><span>Time</span><span>tok/s</span><span class="desktop-only">TTFT</span><span class="desktop-only">Total</span></span></div>';
   Object.entries(latest).filter(([key,r])=>{
     const mp = parseModelProvider(r.provider);
     return ACTIVE_PROVIDERS.includes(mp.provider);
@@ -299,7 +309,7 @@ function render(rows){
     const cls = tok>=60?'fast':tok>=40?'':tok>=25?'warn':'slow';
     const isWknd = dayType(d)==='weekend';
     const tag = isWknd ? '<span style="background:var(--purple);color:#fff;font-size:.65rem;padding:2px 6px;border-radius:3px;margin-left:4px">Weekend</span>' : '<span style="background:var(--blue);color:#000;font-size:.65rem;padding:2px 6px;border-radius:3px;margin-left:4px">Weekday</span>';
-    latestHtml += `<div>${mp.model} @ ${mp.provider}${tag}</div><div>${ts}</div><div class="${cls}">${tok.toFixed(1)}</div><div>${parseFloat(r.ttft_ms).toFixed(0)}ms</div><div>${(parseFloat(r.total_ms)/1000).toFixed(1)}s</div>`;
+    latestHtml += `<div class="latest-row"><div class="latest-info"><div class="latest-model">${mp.model} @ ${mp.provider}${tag}</div><div class="latest-meta">${ts} · ${parseFloat(r.ttft_ms).toFixed(0)}ms TTFT · ${(parseFloat(r.total_ms)/1000).toFixed(1)}s total</div></div><div class="latest-metrics"><span class="latest-metric ${cls}">${tok.toFixed(1)}</span><span class="desktop-only latest-metric" style="color:var(--muted)">${parseFloat(r.ttft_ms).toFixed(0)}ms</span><span class="desktop-only latest-metric" style="color:var(--muted)">${(parseFloat(r.total_ms)/1000).toFixed(1)}s</span></div></div>`;
   });
   latestHtml += '</div>';
   document.getElementById('latest').innerHTML = latestHtml;
