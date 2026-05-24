@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Provider Speed Dashboard — Model-First v3.11</title>
+  <title>Provider Speed Dashboard — Model-First v3.12</title>
 <style>
   :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--purple:#a371f7;--cyan:#39c5cf;--weekend:#a371f7;--weekday:#79c0ff;--recent:#39c5cf;--alltime:#a371f7;}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -65,10 +65,10 @@
 <body>
 <h1>Provider Speed Dashboard</h1>
 <div class="subtitle" id="subtitle">Loading...</div>
-  <div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.11</div>
+  <div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.12</div>
 
 <div class="card">
-  <h2>🏆 Best Model Right Now</h2>
+  <h2>🏆 Fastest Models Right Now</h2>
   <div id="recommend-all">Loading...</div>
 </div>
 
@@ -125,7 +125,7 @@
   </div>
 </div>
 
-<div class="refresh">v3.11 · Auto-refreshes every 5 min</div>
+<div class="refresh">v3.12 · Auto-refreshes every 5 min</div>
 
 <script>
 const CSV_URL = 'https://raw.githubusercontent.com/thaneclaw/provider-speed-dashboard/main/provider-speed.log';
@@ -216,14 +216,20 @@ function renderRecommend(containerId, latestData){
   Object.entries(latestData).forEach(([key, r])=>{
     const mp = parseModelProvider(r.provider);
     const tok = parseFloat(r.tok_s)||0;
-    scores.push({model: mp.model, provider: mp.provider, tok});
+    const d = new Date(r.timestamp);
+    const ts = d.toISOString().slice(5,16).replace('T',' ');
+    scores.push({model: mp.model, provider: mp.provider, tok, ttft: parseFloat(r.ttft_ms).toFixed(0), total: (parseFloat(r.total_ms)/1000).toFixed(1), ts});
   });
   scores.sort((a,b)=>b.tok-a.tok);
   let html = '';
   if(scores.length){
-    const best = scores[0];
-    const cls = best.tok>=60?'fast':best.tok<25?'slow':best.tok<40?'warn':'';
-    html = `<div class="recommend"><span class="badge">🏆</span><div><div class="provider-name">Best right now: ${best.model} @ ${best.provider}</div><div class="stat-row"><span class="${cls}">${best.tok.toFixed(1)} tok/s</span></div></div></div>`;
+    const top3 = scores.slice(0,3);
+    top3.forEach((s,i)=>{
+      const emoji = i===0?'🥇':i===1?'🥈':'🥉';
+      const cls = s.tok>=60?'fast':s.tok<25?'slow':s.tok<40?'warn':'';
+      html += `<div class="recommend"><span class="badge">${emoji}</span><div><div class="provider-name">${s.model} @ ${s.provider}</div>`;
+      html += `<div class="stat-row"><span class="${cls}">${s.tok.toFixed(1)} tok/s</span> · TTFT <span>${s.ttft}ms</span> · total <span>${s.total}s</span> · <span style="color:var(--muted)">${s.ts}</span></div></div></div>`;
+    });
   } else {
     html = `<div style="color:var(--muted)">No runs yet.</div>`;
   }
@@ -240,10 +246,18 @@ function renderTable(tableId, modelData, dayFilter){
     return;
   }
   groups.forEach(([modelName, providers])=>{
+    // Filter out providers with no data for this dayFilter
+    const activeProviders = providers.filter(p=>
+      ['night','morning','afternoon','evening'].some(bucket=>{
+        const vals = p[dayFilter][bucket];
+        return vals && vals.length > 0;
+      })
+    );
+    if(activeProviders.length===0) return;
     const headerTr = document.createElement('tr');
     headerTr.innerHTML = `<td colspan="5" class="model-header">${modelName}</td>`;
     tbody.appendChild(headerTr);
-    providers.forEach(p=>{
+    activeProviders.forEach(p=>{
       const tr = document.createElement('tr');
       let html = `<td class="provider-indent">${p.provider}</td>`;
       ['night','morning','afternoon','evening'].forEach(bucket=>{
