@@ -2239,3 +2239,10 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-05-24T11:01:51Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,458,14656,605,41.3,morning
 2026-05-24T11:02:02Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,5519,10401,715,68.7,morning
 2026-05-24T11:02:06Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,510,3970,616,155.2,morning
+2026-05-24T12:00:30Z,kimi — Ollama Cloud,kimi-k2.6,10722,14741,677,45.9,afternoon
+2026-05-24T12:00:38Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,666,8475,702,82.8,afternoon
+2026-05-24T12:00:49Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,1602,10757,706,65.6,afternoon
+2026-05-24T12:00:56Z,GLM 5.1 — Ollama Cloud,glm-5.1,1194,6871,624,90.8,afternoon
+2026-05-24T12:01:03Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,684,7741,594,76.7,afternoon
+2026-05-24T12:01:10Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,665,6270,719,114.7,afternoon
+2026-05-24T12:01:14Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,779,4695,610,129.9,afternoon
