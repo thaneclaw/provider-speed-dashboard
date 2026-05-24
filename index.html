@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Provider Speed Dashboard — Model-First v3.10</title>
+  <title>Provider Speed Dashboard — Model-First v3.11</title>
 <style>
   :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--purple:#a371f7;--cyan:#39c5cf;--weekend:#a371f7;--weekday:#79c0ff;--recent:#39c5cf;--alltime:#a371f7;}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -65,7 +65,7 @@
 <body>
 <h1>Provider Speed Dashboard</h1>
 <div class="subtitle" id="subtitle">Loading...</div>
-  <div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.10</div>
+  <div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.11</div>
 
 <div class="card">
   <h2>🏆 Fastest Models Right Now</h2>
@@ -125,12 +125,7 @@
   </div>
 </div>
 
-<div class="card">
-  <h2>Warnings</h2>
-  <div id="warnings">Loading...</div>
-</div>
-
-<div class="refresh">v3.10 · Model-first · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
+<div class="refresh">v3.11 · Model-first · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
 
 <script>
 const CSV_URL = 'https://raw.githubusercontent.com/thaneclaw/provider-speed-dashboard/main/provider-speed.log';
@@ -256,7 +251,7 @@ function renderTable(tableId, modelData, dayFilter){
     tbody.appendChild(headerTr);
     providers.forEach(p=>{
       const tr = document.createElement('tr');
-      let html = `<td class="provider-indent">— ${p.provider}</td>`;
+      let html = `<td class="provider-indent">${p.provider}</td>`;
       ['night','morning','afternoon','evening'].forEach(bucket=>{
         const vals = p[dayFilter][bucket];
         if(vals && vals.length){
@@ -331,17 +326,6 @@ function render(rows){
   // All time — weekday / weekend (everything)
   renderTable('table-all-weekday', allModels, 'weekday');
   renderTable('table-all-weekend', allModels, 'weekend');
-
-  // Warnings — active providers only
-  let warnHtml = '';
-  Object.entries(latest).forEach(([key,r])=>{
-    const mp = parseModelProvider(r.provider);
-    if(!ACTIVE_PROVIDERS.includes(mp.provider)) return;
-    const tok = parseFloat(r.tok_s)||0;
-    if(tok<25) warnHtml += `<div style="color:var(--red);margin-bottom:4px">⚠️ ${mp.model} @ ${mp.provider}: ${tok.toFixed(1)} tok/s in latest run — critically slow</div>`;
-    else if(tok<40) warnHtml += `<div style="color:var(--yellow);margin-bottom:4px">⚠️ ${mp.model} @ ${mp.provider}: ${tok.toFixed(1)} tok/s in latest run — below ideal</div>`;
-  });
-  document.getElementById('warnings').innerHTML = warnHtml || '<div style="color:var(--green)">All active models ≥40 tok/s in latest run.</div>';
 }
 
 function load(){
