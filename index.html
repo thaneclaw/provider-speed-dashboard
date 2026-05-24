@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Provider Speed Dashboard — Model-First v3.8</title>
+  <title>Provider Speed Dashboard — Model-First v3.9</title>
 <style>
   :root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--green:#3fb950;--yellow:#d29922;--red:#f85149;--blue:#58a6ff;--purple:#a371f7;--cyan:#39c5cf;--weekend:#a371f7;--weekday:#79c0ff;--recent:#39c5cf;--alltime:#a371f7;}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -55,7 +55,7 @@
 <body>
 <h1>Provider Speed Dashboard</h1>
 <div class="subtitle" id="subtitle">Loading...</div>
-<div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.7</div>
+  <div class="note">📅 All data · May 8, 2026 onwards · UTC · Weekend = Sat/Sun · v3.9</div>
 
 <div class="card">
   <h2>🏆 Fastest Models Right Now</h2>
@@ -120,7 +120,7 @@
   <div id="warnings">Loading...</div>
 </div>
 
-<div class="refresh">v3.7 · Model-first · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
+<div class="refresh">v3.9 · Model-first · Auto-refreshes every 5 min · Source: thaneclaw/provider-speed-dashboard</div>
 
 <script>
 const CSV_URL = 'https://raw.githubusercontent.com/thaneclaw/provider-speed-dashboard/main/provider-speed.log';
@@ -251,8 +251,8 @@ function renderTable(tableId, modelData, dayFilter){
         const vals = p[dayFilter][bucket];
         if(vals && vals.length){
           const avg = vals.reduce((a,v)=>a+v,0)/vals.length;
-          const cls = avg>=60?'fast':avg<25?'slow':avg<40?'warn':'';
-          html += `<td class="${cls}">${avg.toFixed(1)} <span style="color:var(--muted);font-size:.75rem">(${vals.length})</span></td>`;
+          const cls = avg>=50?'fast':avg<25?'slow':avg<40?'warn':'';
+          html += `<td><span class="${cls}">${avg.toFixed(1)}</span> <span class="${cls}" style="font-size:.75rem;opacity:.7">(${vals.length})</span></td>`;
         } else {
           html += `<td style="color:var(--muted)">—</td>`;
         }
