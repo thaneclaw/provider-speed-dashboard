@@ -598,3 +598,11 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak
 2026-06-04T00:02:05Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,621,4557,669,146.8,night
 2026-06-04T00:02:10Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,778,4854,613,126.3,night
 2026-06-04T00:02:17Z,Qwen 3.5 — Neuralwatt,Qwen/Qwen3.5-397B-A17B-FP8,837,6774,586,86.5,night
+2026-06-04T01:00:47Z,kimi — Ollama Cloud,kimi-k2.6,1667,5688,706,124.1,night
+2026-06-04T01:00:55Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,606,8586,687,80.0,night
+2026-06-04T01:01:02Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,967,6675,949,142.2,night
+2026-06-04T01:01:09Z,GLM 5.1 — Ollama Cloud,glm-5.1,967,6833,607,88.8,night
+2026-06-04T01:02:00Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,44107,51445,602,11.7,night
+2026-06-04T01:02:14Z,kimi — Neuralwatt,moonshotai/Kimi-K2.6,710,13859,726,52.4,night
+2026-06-04T01:02:19Z,GLM 5.1 — Neuralwatt,zai-org/GLM-5.1-FP8,530,4883,618,126.6,night
+2026-06-04T01:02:25Z,Qwen 3.5 — Neuralwatt,Qwen/Qwen3.5-397B-A17B-FP8,931,6215,596,95.9,night
