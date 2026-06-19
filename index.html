@@ -202,7 +202,7 @@ function groupByModel(modelData){
     if(!grouped[entry.model]) grouped[entry.model] = [];
     grouped[entry.model].push(entry);
   });
-  const modelOrder = ['kimi 2.6', 'kimi 2.7 code', 'DS V4 Pro', 'DS V4 Flash', 'GLM 5.1', 'Qwen 3.5'];
+  const modelOrder = ['kimi 2.6', 'kimi 2.7 code', 'DS V4 Pro', 'DS V4 Flash', 'GLM 5.2', 'Qwen 3.5'];
   const ordered = {};
   modelOrder.forEach(m=>{ if(grouped[m]) ordered[m] = grouped[m]; });
   Object.keys(grouped).sort().forEach(m=>{ if(!ordered[m]) ordered[m] = grouped[m]; });
