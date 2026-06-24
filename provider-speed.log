@@ -8152,3 +8152,12 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-06-24T14:01:14Z,kimi 2.6 — Neuralwatt,moonshotai/Kimi-K2.6,1252,6221,732,117.7,afternoon
 2026-06-24T14:01:26Z,GLM 5.2 — Neuralwatt,glm-5.2,1144,12501,623,49.8,afternoon
 2026-06-24T14:01:33Z,Qwen 3.5 — Neuralwatt,Qwen/Qwen3.5-397B-A17B-FP8,828,6845,603,88.1,afternoon
+2026-06-24T15:00:17Z,kimi 2.6 — Ollama Cloud,kimi-k2.6,1844,9600,716,74.6,afternoon
+2026-06-24T15:00:22Z,kimi 2.7 code — Ollama Cloud,kimi-k2.7-code,849,4584,692,150.9,afternoon
+2026-06-24T15:00:27Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,638,4652,700,150.5,afternoon
+2026-06-24T15:00:30Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,554,3699,679,183.5,afternoon
+2026-06-24T15:00:40Z,GLM 5.2 — Ollama Cloud,glm-5.2,1333,9602,637,66.3,afternoon
+2026-06-24T15:01:10Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,647,30074,604,20.1,afternoon
+2026-06-24T15:01:19Z,kimi 2.6 — Neuralwatt,moonshotai/Kimi-K2.6,6168,9455,712,75.3,afternoon
+2026-06-24T15:01:30Z,GLM 5.2 — Neuralwatt,glm-5.2,5082,11003,629,57.2,afternoon
+2026-06-24T15:01:36Z,Qwen 3.5 — Neuralwatt,Qwen/Qwen3.5-397B-A17B-FP8,940,5957,612,102.7,afternoon
