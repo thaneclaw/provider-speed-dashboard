@@ -20,7 +20,6 @@ jobs:
     timeout-minutes: 10
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -37,34 +36,30 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           timeout: 300000
+        continue-on-error: true
 
-  retry-deploy:
-    needs: deploy
-    if: failure()
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy-retry.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
+      - name: Wait before retry
+        if: steps.deploy.outcome == 'failure'
+        run: sleep 30
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-
-      - name: Deploy (retry 1)
-        id: deploy-retry
+      - name: Retry deploy (1)
+        id: retry1
+        if: steps.deploy.outcome == 'failure'
         uses: actions/deploy-pages@v4
         with:
           timeout: 300000
+        continue-on-error: true
 
-      - name: Deploy (retry 2, if first retry failed)
-        if: failure()
+      - name: Retry deploy (2)
+        id: retry2
+        if: steps.retry1.outcome == 'failure'
         uses: actions/deploy-pages@v4
         with:
           timeout: 300000
+        continue-on-error: true
+
+      - name: Fail if all deploy attempts failed
+        if: steps.deploy.outcome == 'failure' && steps.retry1.outcome == 'failure' && steps.retry2.outcome == 'failure'
+        run: |
+          echo "::error::All 3 deploy attempts to GitHub Pages failed"
+          exit 1
