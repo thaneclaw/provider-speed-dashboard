@@ -11482,3 +11482,6 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-07-11T19:00:28Z,kimi 2.6 — Neuralwatt,moonshotai/Kimi-K2.6,975,7254,662,91.3,evening
 2026-07-11T19:00:33Z,GLM 5.2 — Neuralwatt,glm-5.2,913,5387,641,119.0,evening
 2026-07-11T19:00:41Z,Qwen 3.5 — Neuralwatt,Qwen/Qwen3.5-397B-A17B-FP8,999,7190,596,82.9,evening
+2026-07-11T20:00:32Z,kimi 2.6 — Neuralwatt,moonshotai/Kimi-K2.6,1261,7899,696,88.1,evening
+2026-07-11T20:00:37Z,GLM 5.2 — Neuralwatt,glm-5.2,3220,5448,641,117.7,evening
+2026-07-11T20:00:43Z,Qwen 3.5 — Neuralwatt,Qwen/Qwen3.5-397B-A17B-FP8,841,5548,599,108.0,evening
