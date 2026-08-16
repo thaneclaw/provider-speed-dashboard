@@ -18883,3 +18883,12 @@ timestamp,provider,model,ttft_ms,total_ms,tokens,tok_s,peak_us_eu
 2026-08-16T19:01:28Z,kimi 2.6 — Neuralwatt,moonshotai/Kimi-K2.6,524,2437,458,188.0,evening
 2026-08-16T19:01:32Z,GLM 5.2 — Neuralwatt,glm-5.2,639,4374,615,140.6,evening
 2026-08-16T19:01:37Z,Qwen 3.5 — Neuralwatt,Qwen/Qwen3.5-397B-A17B-FP8,738,4080,636,155.9,evening
+2026-08-16T20:01:04Z,kimi 2.6 — Ollama Cloud,kimi-k2.6,1696,6333,630,99.5,evening
+2026-08-16T20:01:08Z,kimi 2.7 code — Ollama Cloud,kimi-k2.7-code,685,3784,693,183.1,evening
+2026-08-16T20:01:11Z,DS V4 Pro — Ollama Cloud,deepseek-v4-pro,673,3709,742,200.1,evening
+2026-08-16T20:01:16Z,DS V4 Flash — Ollama Cloud,deepseek-v4-flash,531,4830,627,129.8,evening
+2026-08-16T20:01:19Z,GLM 5.2 — Ollama Cloud,glm-5.2,322,2245,601,267.8,evening
+2026-08-16T20:01:24Z,Qwen 3.5 — Ollama Cloud,qwen3.5:397b,948,5918,616,104.1,evening
+2026-08-16T20:01:28Z,kimi 2.6 — Neuralwatt,moonshotai/Kimi-K2.6,506,3264,676,207.1,evening
+2026-08-16T20:01:32Z,GLM 5.2 — Neuralwatt,glm-5.2,681,4167,622,149.3,evening
+2026-08-16T20:01:36Z,Qwen 3.5 — Neuralwatt,Qwen/Qwen3.5-397B-A17B-FP8,638,3617,632,174.7,evening
